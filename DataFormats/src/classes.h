@@ -21,6 +21,7 @@
 #include "flashgg/DataFormats/interface/Photon.h"
 #include "flashgg/DataFormats/interface/SinglePhotonView.h"
 #include "flashgg/DataFormats/interface/SingleVertexView.h"
+#include "flashgg/DataFormats/interface/BPbHTag.h"
 #include "flashgg/DataFormats/interface/TTHHadronicTag.h"
 #include "flashgg/DataFormats/interface/TTHLeptonicTag.h"
 #include "flashgg/DataFormats/interface/THQLeptonicTag.h"
@@ -204,6 +205,10 @@ namespace  {
         flashgg::VBFDiPhoDiJetMVAResult vbfDiPhoDiJet_res;
         std::vector<flashgg::VBFDiPhoDiJetMVAResult> vec_vbfDiPhoDiJet_res;
         edm::Wrapper<std::vector<flashgg::VBFDiPhoDiJetMVAResult> > wrp_vec_vbfDiPhoDiJet_res;
+
+        flashgg::BPbHTag bpbh;
+        std::vector<flashgg::BPbHTag> vec_bpbh;
+        edm::Wrapper<std::vector<flashgg::BPbHTag> > wrp_vec_bpbh;
 
         flashgg::DiPhotonTagBase tagbase;
         std::vector<flashgg::DiPhotonTagBase> vec_tagbase;

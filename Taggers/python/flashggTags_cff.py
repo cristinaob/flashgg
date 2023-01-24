@@ -34,6 +34,12 @@ ttHHadronic_ttH_vs_ttGG_DNN_preprocess_scheme = TTHDNNPreprocessingConstructor.c
 ttHHadronic_ttH_vs_dipho_DNN_preprocess_scheme_path = os.path.expandvars("$CMSSW_BASE/src/flashgg/Taggers/data/metadata_Hadronic_ttHHadronic_ttH_vs_dipho_legacy_v1.1_27Nov2020.json")
 ttHHadronic_ttH_vs_dipho_DNN_preprocess_scheme = TTHDNNPreprocessingConstructor.construct(ttHHadronic_ttH_vs_dipho_DNN_preprocess_scheme_path, "Hadronic")
 
+flashggBPbHTag = cms.EDProducer("FlashggBPbHTagProducer",
+                                leadPhoOverMassThreshold = cms.double(0.33),
+                                subleadPhoOverMassThreshold = cms.double(0.25),
+                                PhoMVAThreshold = cms.double(-0.7)
+                                )
+
 flashggTTHHadronicTag = cms.EDProducer("FlashggTTHHadronicTagProducer",
                                        DiPhotonName=cms.string('flashggPreselectedDiPhotons'),
                                        DiPhotonSuffixes = cms.vstring(''), # nominal and systematic variations
