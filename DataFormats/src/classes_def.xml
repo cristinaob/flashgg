@@ -87,6 +87,10 @@
 <class name="std::vector<flashgg::TTHLeptonicTag>"/>
 <class name="edm::Wrapper<std::vector<flashgg::TTHLeptonicTag> >"/>
 
+<class name="flashgg::BPbHTag"/>
+<class name="std::vector<flashgg::BPbHTag>"/>
+<class name="edm::Wrapper<std::vector<flashgg::BPbHTag> >"/>
+
 <class name="flashgg::THQLeptonicTag"/>
 <class name="std::vector<flashgg::THQLeptonicTag>"/>
 <class name="edm::Wrapper<std::vector<flashgg::THQLeptonicTag> >"/>

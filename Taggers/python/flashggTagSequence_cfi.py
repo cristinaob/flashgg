@@ -33,22 +33,24 @@ def flashggPrepareTagSequence(process, options):
     flashggTHQLeptonicTag.MVAThreshold_tHqVsttHBDT = cms.double(options['THQLeptonicTag']['MVAThreshold_VsttH'])
 
     flashggTagSequence = cms.Sequence(flashggDifferentialPhoIdInputsCorrection
+                                      * flashggUnpackedJets
                                       * flashggPrefireDiPhotons
                                       * flashggPreselectedDiPhotons
                                       * flashggDiPhotonMVA
-                                      * flashggUnpackedJets
+                                      #* flashggUnpackedJets
                                       * flashggVBFMVA
                                       * flashggVHhadMVA
                                       * flashggGluGluHMVA
                                       * flashggVBFDiPhoDiJetMVA
                                       * ( flashggUntagged
-                                      #                                  *( flashggSigmaMoMpToMTag
+                                      # *( flashggSigmaMoMpToMTag
+                                          + flashggBPbHTag
                                           + flashggVBFTag
                                           + flashggTTHDiLeptonTag
                                           + flashggTTHLeptonicTag
-                      + flashggTHQLeptonicTag
-#                                     + flashggTTHHadronicTTag                                      
-#                                     + flashggTTHHadronicLTag                                      
+                                          + flashggTHQLeptonicTag
+                                          #+ flashggTTHHadronicTTag                                      
+                                          #+ flashggTTHHadronicLTag                                      
                                           + flashggTTHHadronicTag
                                           + flashggVHMetTag
                                           + flashggWHLeptonicTag

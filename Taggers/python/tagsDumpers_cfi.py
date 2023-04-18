@@ -17,7 +17,7 @@ def createTagDumper (tagName):
 dict = {'UntaggedTag': 'untagged',
         'VBFTag': 'vbfh',                
         'TTHLeptonicTag': 'tth',
-	      'THQLeptonicTag': 'thq',
+	'THQLeptonicTag': 'thq',
         'TTHDiLeptonTag': 'tth',
         'TTHHadronicTag': 'tth',
         'VHLooseTag': 'vh',
@@ -26,4 +26,5 @@ dict = {'UntaggedTag': 'untagged',
         'ZPlusJetTag':'zjet',
         'WHLeptonicTag': 'vh',
         'VHLeptonicLooseTag': 'vh',
-        'ZHLeptonicTag': 'vh'}
+        'ZHLeptonicTag': 'vh',
+        'BPbHTag': 'bpbh'}

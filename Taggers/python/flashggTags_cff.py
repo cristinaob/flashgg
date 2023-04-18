@@ -35,6 +35,7 @@ ttHHadronic_ttH_vs_dipho_DNN_preprocess_scheme_path = os.path.expandvars("$CMSSW
 ttHHadronic_ttH_vs_dipho_DNN_preprocess_scheme = TTHDNNPreprocessingConstructor.construct(ttHHadronic_ttH_vs_dipho_DNN_preprocess_scheme_path, "Hadronic")
 
 flashggBPbHTag = cms.EDProducer("FlashggBPbHTagProducer",
+                                DiPhotonTag=cms.InputTag('flashggPreselectedDiPhotons'),
                                 leadPhoOverMassThreshold = cms.double(0.33),
                                 subleadPhoOverMassThreshold = cms.double(0.25),
                                 PhoMVAThreshold = cms.double(-0.7)
