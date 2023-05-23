@@ -1,6 +1,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "flashgg/Taggers/interface/PhotonDumpers.h"
 #include "PhysicsTools/UtilAlgos/interface/EDAnalyzerWrapper.h"
+#include "flashgg/Taggers/interface/TagsDumpers.h"
 
 typedef edm::AnalyzerWrapper<flashgg::GenDiPhotonDumper> GenDiPhotonDumper;
 typedef edm::AnalyzerWrapper<flashgg::CutBasedGenDiPhotonDumper> CutBasedGenDiPhotonDumper;
@@ -12,6 +13,7 @@ typedef edm::AnalyzerWrapper<flashgg::CutBasedSinglePhotonViewDumper> CutBasedSi
 typedef edm::AnalyzerWrapper<flashgg::CutBasedSingleVertexViewDumper> CutBasedSingleVertexViewDumper;
 typedef edm::AnalyzerWrapper<flashgg::DiPhotonTagDumper> DiPhotonTagDumper;
 typedef edm::AnalyzerWrapper<flashgg::StageOneDiPhotonTagDumper> StageOneDiPhotonTagDumper;
+typedef edm::AnalyzerWrapper<flashgg::CutBasedBPbHTagDumper> CutBasedBPbHTagDumper;
 
 DEFINE_FWK_MODULE( GenDiPhotonDumper );
 DEFINE_FWK_MODULE( CutBasedGenDiPhotonDumper );
@@ -23,6 +25,7 @@ DEFINE_FWK_MODULE( CutBasedSinglePhotonViewDumper );
 DEFINE_FWK_MODULE( CutBasedSingleVertexViewDumper );
 DEFINE_FWK_MODULE( DiPhotonTagDumper );
 DEFINE_FWK_MODULE( StageOneDiPhotonTagDumper );
+DEFINE_FWK_MODULE( CutBasedBPbHTagDumper);
 
 // Local Variables:
 // mode:c++

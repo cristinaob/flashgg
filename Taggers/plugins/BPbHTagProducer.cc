@@ -46,6 +46,7 @@ namespace flashgg {
             void produce(Event &, const EventSetup &) override;
 
             EDGetTokenT<View<DiPhotonCandidate>> diPhotonToken_;
+            EDGetTokenT<View<DiPhotonMVAResult>> mvaResultToken_;
 
             double leadPhoOverMassThreshold_;
             double subleadPhoOverMassThreshold_;
@@ -56,11 +57,14 @@ namespace flashgg {
     // ----------
 
     BPbHTagProducer::BPbHTagProducer(const ParameterSet &iConfig) :
-        diPhotonToken_(consumes<View<flashgg::DiPhotonCandidate>>(iConfig.getParameter<InputTag> ("DiPhotonTag"))) {
+        diPhotonToken_(consumes<View<flashgg::DiPhotonCandidate>>(iConfig.getParameter<InputTag> ("DiPhotonTag"))),
+        mvaResultToken_(consumes<View<flashgg::DiPhotonMVAResult>>(iConfig.getParameter<InputTag> ("MVAResultTag"))) {
 
         leadPhoOverMassThreshold_ = iConfig.getParameter<double>("leadPhoOverMassThreshold");
         subleadPhoOverMassThreshold_ = iConfig.getParameter<double>("subleadPhoOverMassThreshold");
         PhoMVAThreshold_ = iConfig.getParameter<double>("PhoMVAThreshold");
+
+        produces<vector<BPbHTag>>();
 
     } // closing 'BPbHTagProducer::BPbHTagProducer'
 
@@ -72,17 +76,27 @@ namespace flashgg {
         Handle<View<flashgg::DiPhotonCandidate>> diPhotons;
         evt.getByToken(diPhotonToken_, diPhotons);
 
+        Handle<View<flashgg::DiPhotonMVAResult> > mvaResults;
+        evt.getByToken(mvaResultToken_, mvaResults);
+
         // Declaring and initializing variables
         double idmva1 = 0.0;
         double idmva2 = 0.0;
+
+        std::unique_ptr<vector<BPbHTag> > bpbhtags( new vector<BPbHTag> );
+
+        std::cout << "=======> New Event with " << diPhotons->size() << " diphoton candidates" << std::endl; 
 
         // Loop over diphoton candidates
         for (unsigned int diphoIndex=0; diphoIndex < diPhotons->size(); diphoIndex++) {
 
             edm::Ptr<flashgg::DiPhotonCandidate> dipho = diPhotons->ptrAt(diphoIndex);
+            edm::Ptr<flashgg::DiPhotonMVAResult> mvares = mvaResults->ptrAt(diphoIndex);
 
             idmva1 = dipho->leadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
             idmva2 = dipho->subLeadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
+
+            std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
 
             // Diphoton selection:
             // - pT cuts on leading and subleading photons
@@ -91,7 +105,17 @@ namespace flashgg {
             if (dipho->subLeadingPhoton()->pt() < (dipho->mass())*subleadPhoOverMassThreshold_) { continue; }
             if (idmva1 < PhoMVAThreshold_ || idmva2 < PhoMVAThreshold_) { continue; }
 
+            std::cout << "Passed cuts!" << std::endl;
+
+            BPbHTag bpbhtags_obj(dipho,mvares);
+            bpbhtags_obj.includeWeights(*dipho);
+            bpbhtags_obj.setDiPhotonIndex(diphoIndex);
+
+            bpbhtags->push_back(bpbhtags_obj);
+
         } // closing loop over diPhotons
+
+        evt.put( std::move(bpbhtags) );
 
     } // closing 'BPbHTagProducer::produce'
     

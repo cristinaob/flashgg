@@ -481,6 +481,8 @@ namespace flashgg {
             return string("VHMet");
         case DiPhotonTagBase::tag_t::kStageOneCombined:
             return string("StageOne");
+        case DiPhotonTagBase::tag_t::kBPbH:
+            return string("BPbH");
         }
         return string("TAG NOT ON LIST");
     }
