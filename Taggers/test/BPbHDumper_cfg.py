@@ -62,7 +62,17 @@ process.BPbHDumper.nameTemplate = cms.untracked.string("$PROCESS_$SQRTS_$CLASSNA
 import flashgg.Taggers.dumperConfigTools as cfgTools
 bpbh_variables = [
 
-    "dipho_mass := diPhoton.mass"
+    "dipho_mass := diPhoton.mass",
+    "dipho_leadPt         := diPhoton.leadingPhoton.pt",
+    "dipho_leadEta        := diPhoton.leadingPhoton.eta",
+    "dipho_leadPhi        := diPhoton.leadingPhoton.phi",
+    "dipho_leadE          := diPhoton.leadingPhoton.energy",
+    "dipho_leadIDMVA      := diPhoton.leadingView.phoIdMvaWrtChosenVtx",
+    "dipho_subleadPt      := diPhoton.subLeadingPhoton.pt",
+    "dipho_subleadEta     := diPhoton.subLeadingPhoton.eta",
+    "dipho_subleadPhi     := diPhoton.subLeadingPhoton.phi",
+    "dipho_subleadE       := diPhoton.subLeadingPhoton.energy",
+    "dipho_subleadIDMVA   := diPhoton.subLeadingView.phoIdMvaWrtChosenVtx"
 
 ]
 
