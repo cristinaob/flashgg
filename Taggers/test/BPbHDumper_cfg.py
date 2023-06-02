@@ -12,7 +12,7 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
-process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
+process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(100)
 
 process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring('file:myMicroAODOutputFile_12.root')
@@ -62,8 +62,17 @@ process.BPbHDumper.nameTemplate = cms.untracked.string("$PROCESS_$SQRTS_$CLASSNA
 import flashgg.Taggers.dumperConfigTools as cfgTools
 bpbh_variables = [
 
-    "dipho_mass := diPhoton.mass"
-
+    "dipho_mass           := diPhoton.mass",
+    "dipho_leadPt         := diPhoton.leadingPhoton.pt",
+    "dipho_leadEta        := diPhoton.leadingPhoton.eta",
+    "dipho_leadPhi        := diPhoton.leadingPhoton.phi",
+    "dipho_leadE          := diPhoton.leadingPhoton.energy",
+    "dipho_leadIDMVA      := diPhoton.leadingView.phoIdMvaWrtChosenVtx",
+    "dipho_subleadPt      := diPhoton.subLeadingPhoton.pt",
+    "dipho_subleadEta     := diPhoton.subLeadingPhoton.eta",
+    "dipho_subleadPhi     := diPhoton.subLeadingPhoton.phi",
+    "dipho_subleadE       := diPhoton.subLeadingPhoton.energy",
+    "dipho_subleadIDMVA   := diPhoton.subLeadingView.phoIdMvaWrtChosenVtx"
 ]
 
 cats = [
