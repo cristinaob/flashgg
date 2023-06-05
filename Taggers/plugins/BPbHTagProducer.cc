@@ -52,12 +52,16 @@ namespace flashgg {
 	    EDGetTokenT<View<Electron>> electronToken_;
 	    EDGetTokenT<View<reco::Vertex> > vertexToken_;
 
+            typedef std::vector<edm::Handle<edm::View<flashgg::Jet> > > JetCollectionVector;
+            std::vector<edm::InputTag> inputTagJets_;
+            std::vector<edm::EDGetTokenT<View<flashgg::Jet> > > tokenJets_;
+
+            // photons
             double leadPhoOverMassThreshold_;
             double subleadPhoOverMassThreshold_;
             double PhoMVAThreshold_;
 
-            //leptons
-            
+            // leptons            
             double MuonEtaCut_;
             double MuonPtCut_;
             double MuonIsoCut_;
@@ -69,6 +73,16 @@ namespace flashgg {
             double DeltaRTrkEle_;
             bool   debug_;
 
+            // jets
+            unsigned int inputJetsCollSize_;
+            double jetEtaThreshold_;
+            double jetPtThreshold_;
+            double dRJetPhoLeadCut_;
+            double dRJetPhoSubleadCut_;
+
+            // others
+            bool debugMode;
+
     }; // closing 'class BPbHTagProducer'
 
     // ----------
@@ -79,7 +93,8 @@ namespace flashgg {
        ,muonToken_(consumes<View<flashgg::Muon> >(iConfig.getParameter<InputTag>("MuonTag")))
        ,electronToken_(consumes<View<flashgg::Electron> >(iConfig.getParameter<InputTag>("ElectronTag")))
        ,vertexToken_( consumes<View<reco::Vertex> >( iConfig.getParameter<InputTag> ( "VertexTag" ) ) ) 
-{
+       ,inputTagJets_( iConfig.getParameter<std::vector<edm::InputTag> >( "inputTagJets" ) )
+    { 
 
         leadPhoOverMassThreshold_ = iConfig.getParameter<double>("leadPhoOverMassThreshold");
         subleadPhoOverMassThreshold_ = iConfig.getParameter<double>("subleadPhoOverMassThreshold");
@@ -96,7 +111,27 @@ namespace flashgg {
         ElePhotonZMassCut_ = iConfig.getParameter<double>( "ElePhotonZMassCut");
         DeltaRTrkEle_ = iConfig.getParameter<double>( "DeltaRTrkEle");
 
+        jetPtThreshold_ = iConfig.getParameter<double>( "jetPtThreshold");
+        jetEtaThreshold_ = iConfig.getParameter<double>( "jetEtaThreshold");
+        dRJetPhoLeadCut_ = iConfig.getParameter<double>( "dRJetPhoLeadCut");
+        dRJetPhoSubleadCut_ = iConfig.getParameter<double>( "dRJetPhoSubleadCut");
+
         debug_ = iConfig.getParameter<bool>( "debug" );
+
+        debugMode = false;
+
+        inputJetsCollSize_= iConfig.getParameter<unsigned int> ( "JetsCollSize" );
+
+        std::vector<std::vector<edm::InputTag>>  jetTags;
+        jetTags.push_back(std::vector<edm::InputTag>(0));
+        for (unsigned int i = 0; i < inputJetsCollSize_ ; i++) {
+          jetTags[0].push_back(inputTagJets_[i]);  // nominal jets
+        }
+
+        for (unsigned i = 0 ; i < inputTagJets_.size() ; i++) {
+          auto token = consumes<View<flashgg::Jet> >(inputTagJets_[i]);
+          tokenJets_.push_back(token);
+        }
 
         produces<vector<BPbHTag>>();
 
@@ -114,13 +149,18 @@ namespace flashgg {
         evt.getByToken(mvaResultToken_, mvaResults);
 
         Handle<View<flashgg::Muon> > theMuons;
-	evt.getByToken(muonToken_, theMuons );
+        evt.getByToken(muonToken_, theMuons );
 
-	Handle<View<flashgg::Electron> > theElectrons;
+        Handle<View<flashgg::Electron> > theElectrons;
         evt.getByToken(electronToken_, theElectrons );
 
-	Handle<View<reco::Vertex> > vertices;
-	evt.getByToken( vertexToken_, vertices );
+        Handle<View<reco::Vertex> > vertices;
+        evt.getByToken( vertexToken_, vertices );
+
+        JetCollectionVector Jets(inputJetsCollSize_);
+        for( size_t j = 0; j < inputTagJets_.size(); ++j ) {
+          evt.getByToken( tokenJets_[j], Jets[j] );
+        }
 
         // Declaring and initializing variables
         double idmva1 = 0.0;
@@ -128,8 +168,12 @@ namespace flashgg {
 
         std::unique_ptr<vector<BPbHTag> > bpbhtags( new vector<BPbHTag> );
 
-        std::cout << "=======> New Event with " << diPhotons->size() << " diphoton candidates" << std::endl; 
-        //std::cout << "leading Pho over Mass Threshold " << leadPhoOverMassThreshold_  << std::endl;
+        if (debugMode) std::cout << "=======> New Event" << std::endl;
+
+        if (debugMode) {
+          std::cout << "Event with " << diPhotons->size() << " diphoton candidates" << std::endl; 
+          std::cout << "leading Pho over Mass Threshold " << leadPhoOverMassThreshold_  << std::endl;
+        }
 
         // Loop over diphoton candidates
         for (unsigned int diphoIndex=0; diphoIndex < diPhotons->size(); diphoIndex++) {
@@ -139,36 +183,62 @@ namespace flashgg {
 
             idmva1 = dipho->leadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
             idmva2 = dipho->subLeadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
-            
-            // std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
-            // std::cout << "leading g Pt " << dipho->leadingPhoton()->pt() << std::endl;
-            // std::cout << "subLeading g Pt " << dipho->subLeadingPhoton()->pt() << std::endl;
+         
+            if (debugMode) {   
+              std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
+              std::cout << "leading g Pt " << dipho->leadingPhoton()->pt() << std::endl;
+              std::cout << "subLeading g Pt " << dipho->subLeadingPhoton()->pt() << std::endl;
+            }
 
-            // Cut 1: diphoton selection:
+            // ------------------------------
+            // Cut 1: diphoton selection
             // - pT cuts on leading and subleading photons
             // - cut on photon ID MVA
             if (dipho->leadingPhoton()->pt() < (dipho->mass())*leadPhoOverMassThreshold_) { continue; }
-            // std::cout << "dipho_mass * leading Pho over Mass Threshold" << (dipho->mass())*leadPhoOverMassThreshold_ << std::endl; 
+            if (debugMode) std::cout << "dipho_mass * leading Pho over Mass Threshold" << (dipho->mass())*leadPhoOverMassThreshold_ << std::endl; 
             if (dipho->subLeadingPhoton()->pt() < (dipho->mass())*subleadPhoOverMassThreshold_) { continue; }
             if (idmva1 < PhoMVAThreshold_ || idmva2 < PhoMVAThreshold_) { continue; }
 
+            // ------------------------------
             // Cut 2: lepton veto
             std::vector<edm::Ptr<flashgg::Muon>> Muons;
             std::vector<edm::Ptr<flashgg::Electron>> Electrons;
 
 	    if (theMuons->size()>0)
-	    	Muons = selectMuons(theMuons->ptrs(), dipho, vertices->ptrs(), MuonPtCut_, MuonEtaCut_, MuonIsoCut_, MuonPhotonDrCut_, debug_);
+	      Muons = selectMuons(theMuons->ptrs(), dipho, vertices->ptrs(), MuonPtCut_, MuonEtaCut_, MuonIsoCut_, MuonPhotonDrCut_, debug_);
 
 	    if (theElectrons->size()>0)
-                Electrons = selectElectrons(theElectrons->ptrs(), dipho, ElePtCut_, EleEtaCuts_, ElePhotonDrCut_, ElePhotonZMassCut_, DeltaRTrkEle_, debug_);
+              Electrons = selectElectrons(theElectrons->ptrs(), dipho, ElePtCut_, EleEtaCuts_, ElePhotonDrCut_, ElePhotonZMassCut_, DeltaRTrkEle_, debug_);
 
-	    std::cout <<" Number of leptons " << (Muons.size() + Electrons.size()) << std::endl;
+	    if (debugMode) std::cout <<" Number of leptons " << (Muons.size() + Electrons.size()) << std::endl;
 
-	    if ( (Muons.size() + Electrons.size()) != 0 ) continue;
+	    if ( (Muons.size() + Electrons.size()) != 0 ) continue;	
 
-	
+            // ------------------------------
+            // Cut 3: jets
+            unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();
+            if (debugMode) std::cout << "jetCollectionIndex: " << jetCollectionIndex << std::endl;
+            int nGoodJets = 0;
+            for ( unsigned int jetIndex = 0; jetIndex < Jets[jetCollectionIndex]->size() ; jetIndex++ ) {
 
-            std::cout << "Passed cuts!" << std::endl;
+              edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
+
+              if( fabs( thejet->eta() ) > jetEtaThreshold_ ) { continue; }
+              if(!thejet->passesJetID  ( flashgg::Tight2017 ) ) { continue; }
+
+              float dRPhoLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->leadingPhoton()->superCluster()->eta(), dipho->leadingPhoton()->superCluster()->phi() ) ;
+              float dRPhoSubLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->subLeadingPhoton()->superCluster()->eta(),
+                                              dipho->subLeadingPhoton()->superCluster()->phi() );
+              if( dRPhoLeadJet < dRJetPhoLeadCut_ || dRPhoSubLeadJet < dRJetPhoSubleadCut_ ) { continue; }
+              if( thejet->pt() < jetPtThreshold_ ) { continue; }
+
+              nGoodJets++; 
+
+            }
+            
+            if (debugMode) std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
+
+            if (debugMode) std::cout << "Passed cuts!" << std::endl;
 
             BPbHTag bpbhtags_obj(dipho,mvares);
             bpbhtags_obj.includeWeights(*dipho);
