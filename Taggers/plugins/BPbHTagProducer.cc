@@ -80,6 +80,9 @@ namespace flashgg {
             double dRJetPhoLeadCut_;
             double dRJetPhoSubleadCut_;
 
+            vector<double> bDiscriminator_;
+            string bTag_;
+
             // others
             bool debugMode;
 
@@ -115,6 +118,9 @@ namespace flashgg {
         jetEtaThreshold_ = iConfig.getParameter<double>( "jetEtaThreshold");
         dRJetPhoLeadCut_ = iConfig.getParameter<double>( "dRJetPhoLeadCut");
         dRJetPhoSubleadCut_ = iConfig.getParameter<double>( "dRJetPhoSubleadCut");
+
+        bDiscriminator_ = iConfig.getParameter<vector<double > >( "bDiscriminator" );
+        bTag_ = iConfig.getParameter<string>( "bTag" );
 
         debug_ = iConfig.getParameter<bool>( "debug" );
 
@@ -218,7 +224,12 @@ namespace flashgg {
             // Cut 3: jets
             unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();
             if (debugMode) std::cout << "jetCollectionIndex: " << jetCollectionIndex << std::endl;
+
             int nGoodJets = 0;
+            int nbjets_loose = 0;
+            int nbjets_medium = 0;
+            int nbjets_tight = 0;
+
             for ( unsigned int jetIndex = 0; jetIndex < Jets[jetCollectionIndex]->size() ; jetIndex++ ) {
 
               edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
@@ -234,9 +245,35 @@ namespace flashgg {
 
               nGoodJets++; 
 
+              float bDiscriminatorValue;
+              if (fabs(thejet->eta()) < 2.5) {
+                if (bTag_ == "pfDeepCSV") {
+                  bDiscriminatorValue = thejet->bDiscriminator("pfDeepCSVJetTags:probb") + thejet->bDiscriminator("pfDeepCSVJetTags:probbb");
+                } else {
+                  bDiscriminatorValue = thejet->bDiscriminator( bTag_ );
+                }
+
+                if ( bDiscriminatorValue > bDiscriminator_[0] ) {
+                  nbjets_loose++;
+                }
+
+                if( bDiscriminatorValue > bDiscriminator_[1] ) {
+                  nbjets_medium++;
+                }
+
+                if( bDiscriminatorValue > bDiscriminator_[2] ) {
+                  nbjets_tight++;
+                }
+              }
+
             }
             
-            if (debugMode) std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
+            if (debugMode) {
+              std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
+              std::cout << "loose bjets: " << nbjets_loose << std::endl;
+              std::cout << "medium bjets: " << nbjets_medium << std::endl;
+              std::cout << "tight bjets: " << nbjets_tight << std::endl;
+            }
 
             if (debugMode) std::cout << "Passed cuts!" << std::endl;
 
