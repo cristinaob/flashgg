@@ -173,9 +173,9 @@ if len(options.samples) == 0:
     
     #data.append("/DoubleElectron/CMSSW_7_0_6_patch1-GR_70_V2_AN1_RelVal_zEl2012D-v1/MINIAOD")
 else:
-    sig  = options.samples["sig"]
+    #sig  = options.samples["sig"]
     bkg  = options.samples["bkg"]
-    data = options.samples["data"]
+    #data = options.samples["data"]
 
 if options.lumiMask: options.lumiMask = os.path.abspath(options.lumiMask)
 lumiMasks = {}
