@@ -10,16 +10,16 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.load("Configuration.StandardSequences.GeometryDB_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
 
 process.source = cms.Source("PoolSource",
-                            fileNames = cms.untracked.vstring('file:myMicroAODOutputFile_12.root')
+                            fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/Dalia_myMicroAODOutputFile.root')
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("test.root"))
+                                   fileName = cms.string("Dalia_test.root"))
 
 from flashgg.MetaData.JobConfig import customize
 
@@ -62,7 +62,7 @@ process.BPbHDumper.nameTemplate = cms.untracked.string("$PROCESS_$SQRTS_$CLASSNA
 import flashgg.Taggers.dumperConfigTools as cfgTools
 bpbh_variables = [
 
-    "dipho_mass := diPhoton.mass",
+    "dipho_mass		  := diPhoton.mass",
     "dipho_leadPt         := diPhoton.leadingPhoton.pt",
     "dipho_leadEta        := diPhoton.leadingPhoton.eta",
     "dipho_leadPhi        := diPhoton.leadingPhoton.phi",

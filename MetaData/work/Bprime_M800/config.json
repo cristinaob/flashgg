@@ -1,0 +1,30 @@
+{
+    "checkIfOnT2": false, 
+    "crabTemplate": "/eos/home-r/rdalialu/CMSSW_10_6_29/src/flashgg/MetaData/work/crabConfig_TEMPLATE.py", 
+    "verbose": false, 
+    "campaign": "Bprime_M800", 
+    "lumiMask": null, 
+    "unitsPerJob": 25000, 
+    "extraPyCfgParam": null, 
+    "checkNFiles": false, 
+    "samples_src": "campaigns/Bprime_M800.json", 
+    "parameterSet": "/eos/home-r/rdalialu/CMSSW_10_6_29/src/flashgg/MicroAOD/test/microAODstd.py", 
+    "label": null, 
+    "outputPath": "/store/group/phys_b2g/rdalialu", 
+    "mkPilot": true, 
+    "metaConditions": "/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/MetaData/data/MetaConditions/Era2016_RR-17Jul2018_v1.json", 
+    "createCrabConfig": true, 
+    "samples": {
+        "bkg": [
+            "/BprimeBToHB_Hgg_M-800_TuneCP5_13TeV-madgraph-pythia8/RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/MINIAODSIM", 
+            "/BprimeBToHB_Hgg_M-800_TuneCP5_13TeV-madgraph-pythia8/RunIISummer20UL16MiniAODv2-106X_mcRun2_asymptotic_v17-v2/MINIAODSIM", 
+            "/BprimeBToHB_Hgg_M-800_TuneCP5_13TeV-madgraph-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9-v2/MINIAODSIM", 
+            "/BprimeBToHB_Hgg_M-800_TuneCP5_13TeV-madgraph-pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v2/MINIAODSIM"
+        ]
+    }, 
+    "lumisPerJob": 10, 
+    "outputSite": "T2_CH_CERN", 
+    "flashggVersion": "v2", 
+    "task_dir": "Bprime_M800", 
+    "__opts__": null
+}

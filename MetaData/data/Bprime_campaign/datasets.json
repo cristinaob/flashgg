@@ -1,0 +1,96 @@
+{
+    "/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/MINIAODSIM": {
+        "dset_type": "mc", 
+        "files": [
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/EF75538A-1DF3-8F4F-988D-0E28B1E0F8A3.root", 
+                "nevents": 26709
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/098F72B5-22FE-F44E-8C5B-239A1CBEE4FC.root", 
+                "nevents": 28551
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/89FF344F-6D7E-3C43-9F1E-F73CE25B1694.root", 
+                "nevents": 27630
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/B45A333D-C684-7C4B-A799-C940E9A6E9CB.root", 
+                "nevents": 34077
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/EB61A8ED-A80E-F641-8072-6E8EC28A7DB6.root", 
+                "nevents": 26709
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/4F3CCA70-F2FD-4B48-963B-10F0BE33232B.root", 
+                "nevents": 35919
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/23B92AFD-4E5A-6F45-9251-DAED3AC62CB6.root", 
+                "nevents": 35919
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/6E3F65F0-7069-D84F-9F9E-979B44BCD56C.root", 
+                "nevents": 28551
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/C577372E-E980-1541-BCC7-5F0DA1AC9FE3.root", 
+                "nevents": 26709
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/9A8DB39A-494A-D043-A545-8523660C8C3A.root", 
+                "nevents": 30393
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/890DDAC4-5D97-0E4C-BA09-385A3C07C3B8.root", 
+                "nevents": 11052
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/1C48D2FC-3C8D-6044-B236-7FAA778532D9.root", 
+                "nevents": 31314
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/F2548F13-6AEE-E241-BD66-3CEAE8E72786.root", 
+                "nevents": 27630
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/81033E94-A104-5F4B-80EB-1611EDAE0289.root", 
+                "nevents": 27630
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/933040FA-3CA9-F34D-866D-C36373ACEA7A.root", 
+                "nevents": 30393
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/F6E197B1-6F93-FB4C-B87F-2C608F4E47D5.root", 
+                "nevents": 27630
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/2CA59578-C3E7-F147-A67A-2E2BA6DD1311.root", 
+                "nevents": 29472
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/27DEBD8B-2AB3-F24C-B55A-494165BE466D.root", 
+                "nevents": 2763
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/6788FC59-82D6-9E40-88E4-B7C10C8BDC53.root", 
+                "nevents": 1842
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/6CF7493D-C0CE-0046-8E6A-7C689B730B1A.root", 
+                "nevents": 5526
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/EDDA216B-8537-8149-9DD9-C15EF7AF7262.root", 
+                "nevents": 1842
+            }, 
+            {
+                "name": "/store/mc/RunIISummer20UL16MiniAODAPVv2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/60000/2A54B782-3954-A240-8639-A6FCF80182CD.root", 
+                "nevents": 818
+            }
+        ], 
+        "parent_n_units": null
+    }
+}
