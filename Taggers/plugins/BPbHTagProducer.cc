@@ -124,7 +124,7 @@ namespace flashgg {
 
         debug_ = iConfig.getParameter<bool>( "debug" );
 
-        debugMode = false;
+        debugMode = true;
 
         inputJetsCollSize_= iConfig.getParameter<unsigned int> ( "JetsCollSize" );
 
@@ -226,53 +226,62 @@ namespace flashgg {
             if (debugMode) std::cout << "jetCollectionIndex: " << jetCollectionIndex << std::endl;
 
             int nGoodJets = 0;
+            int nFwdJets = 0;
             int nbjets_loose = 0;
             int nbjets_medium = 0;
             int nbjets_tight = 0;
 
             for ( unsigned int jetIndex = 0; jetIndex < Jets[jetCollectionIndex]->size() ; jetIndex++ ) {
 
-              edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
+                edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
 
-              if( fabs( thejet->eta() ) > jetEtaThreshold_ ) { continue; }
-              if(!thejet->passesJetID  ( flashgg::Tight2017 ) ) { continue; }
+                if( fabs( thejet->eta() ) > jetEtaThreshold_ ) { continue; }
+                if(!thejet->passesJetID  ( flashgg::Tight2017 ) ) { continue; }
 
-              float dRPhoLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->leadingPhoton()->superCluster()->eta(), dipho->leadingPhoton()->superCluster()->phi() ) ;
-              float dRPhoSubLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->subLeadingPhoton()->superCluster()->eta(),
+                float dRPhoLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->leadingPhoton()->superCluster()->eta(), dipho->leadingPhoton()->superCluster()->phi() ) ;
+                float dRPhoSubLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->subLeadingPhoton()->superCluster()->eta(),
                                               dipho->subLeadingPhoton()->superCluster()->phi() );
-              if( dRPhoLeadJet < dRJetPhoLeadCut_ || dRPhoSubLeadJet < dRJetPhoSubleadCut_ ) { continue; }
-              if( thejet->pt() < jetPtThreshold_ ) { continue; }
+                if( dRPhoLeadJet < dRJetPhoLeadCut_ || dRPhoSubLeadJet < dRJetPhoSubleadCut_ ) { continue; }
+                if( thejet->pt() < jetPtThreshold_ ) { continue; }
 
-              nGoodJets++; 
+                nGoodJets++;
+	      
+                float bDiscriminatorValue;
+                if (fabs(thejet->eta()) < 2.5) {
+                    if (bTag_ == "pfDeepCSV") {
+                        bDiscriminatorValue = thejet->bDiscriminator("pfDeepCSVJetTags:probb") + thejet->bDiscriminator("pfDeepCSVJetTags:probbb");
+                    } else {
+                        bDiscriminatorValue = thejet->bDiscriminator( bTag_ );
+                    }
 
-              float bDiscriminatorValue;
-              if (fabs(thejet->eta()) < 2.5) {
-                if (bTag_ == "pfDeepCSV") {
-                  bDiscriminatorValue = thejet->bDiscriminator("pfDeepCSVJetTags:probb") + thejet->bDiscriminator("pfDeepCSVJetTags:probbb");
+                    if ( bDiscriminatorValue > bDiscriminator_[0] ) {
+                        nbjets_loose++;
+                    }
+
+                    if( bDiscriminatorValue > bDiscriminator_[1] ) {
+                        nbjets_medium++;
+                    }
+
+                    if( bDiscriminatorValue > bDiscriminator_[2] ) {
+                        nbjets_tight++;
+                    }
                 } else {
-                  bDiscriminatorValue = thejet->bDiscriminator( bTag_ );
+                    nFwdJets++;
                 }
-
-                if ( bDiscriminatorValue > bDiscriminator_[0] ) {
-                  nbjets_loose++;
-                }
-
-                if( bDiscriminatorValue > bDiscriminator_[1] ) {
-                  nbjets_medium++;
-                }
-
-                if( bDiscriminatorValue > bDiscriminator_[2] ) {
-                  nbjets_tight++;
-                }
-              }
 
             }
-            
+
+            if ( nGoodJets < 2 ) { continue; }
+            if ( nFwdJets  > 1 ) { continue; }
+
+
             if (debugMode) {
               std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
               std::cout << "loose bjets: " << nbjets_loose << std::endl;
               std::cout << "medium bjets: " << nbjets_medium << std::endl;
               std::cout << "tight bjets: " << nbjets_tight << std::endl;
+              std::cout << "N Fwd Jets: " << nFwdJets << std::endl;
+              
             }
 
             if (debugMode) std::cout << "Passed cuts!" << std::endl;

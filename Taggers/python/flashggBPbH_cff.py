@@ -5,7 +5,8 @@ bDiscriminator94X= cms.vdouble(0.1522,0.4941,0.8001)
 
 flashggBPbH = cms.EDProducer("FlashggBPbHTagProducer"
                              , DiPhotonTag = cms.InputTag('flashggPreselectedDiPhotons')
-                             , MVAResultTag = cms.InputTag('flashggDiPhotonMVA')
+                             , FinalJets = cms.InputTag("flashggFinalJets")
+			     , MVAResultTag = cms.InputTag('flashggDiPhotonMVA')
                              , leadPhoOverMassThreshold = cms.double(0.33)
                              , subleadPhoOverMassThreshold = cms.double(0.25)
                              , PhoMVAThreshold = cms.double(-0.7)
