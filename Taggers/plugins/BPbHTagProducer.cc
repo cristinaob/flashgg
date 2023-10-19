@@ -189,11 +189,13 @@ namespace flashgg {
 
             idmva1 = dipho->leadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
             idmva2 = dipho->subLeadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
-         
+            double diphotonSysPhi = dipho->leadingPhoton()->phi() + dipho->subLeadingPhoton()->phi();
+
             if (debugMode) {   
               std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
               std::cout << "leading g Pt " << dipho->leadingPhoton()->pt() << std::endl;
               std::cout << "subLeading g Pt " << dipho->subLeadingPhoton()->pt() << std::endl;
+              std::cout << "DPhi of Diphoton System = " << diphotonSysPhi << std::endl;
             }
 
             // ------------------------------
@@ -204,6 +206,12 @@ namespace flashgg {
             if (debugMode) std::cout << "dipho_mass * leading Pho over Mass Threshold" << (dipho->mass())*leadPhoOverMassThreshold_ << std::endl; 
             if (dipho->subLeadingPhoton()->pt() < (dipho->mass())*subleadPhoOverMassThreshold_) { continue; }
             if (idmva1 < PhoMVAThreshold_ || idmva2 < PhoMVAThreshold_) { continue; }
+
+            if ( diphotonSysPhi > M_PI ){
+                 diphotonSysPhi -= 2 * M_PI;
+            } else if ( diphotonSysPhi < -M_PI ){
+                diphotonSysPhi += 2 * M_PI;
+            } 
 
             // ------------------------------
             // Cut 2: lepton veto
@@ -223,7 +231,11 @@ namespace flashgg {
             // ------------------------------
             // Cut 3: jets
             unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();
+            
+
             if (debugMode) std::cout << "jetCollectionIndex: " << jetCollectionIndex << std::endl;
+
+            std::vector<edm::Ptr<flashgg::Jet>> selectedLooseBJets;
 
             int nGoodJets = 0;
             int nFwdJets = 0;
@@ -237,17 +249,25 @@ namespace flashgg {
 
                 if( fabs( thejet->eta() ) > jetEtaThreshold_ ) { continue; }
                 if(!thejet->passesJetID  ( flashgg::Tight2017 ) ) { continue; }
+                if ( thejet->pt() < jetPtThreshold_ ) { continue; }
 
                 float dRPhoLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->leadingPhoton()->superCluster()->eta(), dipho->leadingPhoton()->superCluster()->phi() ) ;
                 float dRPhoSubLeadJet = deltaR( thejet->eta(), thejet->phi(), dipho->subLeadingPhoton()->superCluster()->eta(),
                                               dipho->subLeadingPhoton()->superCluster()->phi() );
                 if( dRPhoLeadJet < dRJetPhoLeadCut_ || dRPhoSubLeadJet < dRJetPhoSubleadCut_ ) { continue; }
                 if( thejet->pt() < jetPtThreshold_ ) { continue; }
+                
+                double DPhi_bjet_dipho = std::abs( thejet->phi() - diphotonSysPhi );
+                if ( DPhi_bjet_dipho > M_PI ) { DPhi_bjet_dipho = 2 * M_PI - DPhi_bjet_dipho; }
+
+                std::cout << "Jets Eta Threshold: " << jetEtaThreshold_ << std::endl;
+                std::cout << "Jets Pt Threshold: " << jetPtThreshold_ << std::endl;   
+                std::cout << "DPhi between bjet and diphoton system: " << DPhi_bjet_dipho << std::endl;
 
                 nGoodJets++;
 	      
                 float bDiscriminatorValue;
-                if (fabs(thejet->eta()) < 2.5) {
+                if ( fabs(thejet->eta()) < 2.5) {
                     if (bTag_ == "pfDeepCSV") {
                         bDiscriminatorValue = thejet->bDiscriminator("pfDeepCSVJetTags:probb") + thejet->bDiscriminator("pfDeepCSVJetTags:probbb");
                     } else {
@@ -256,6 +276,8 @@ namespace flashgg {
 
                     if ( bDiscriminatorValue > bDiscriminator_[0] ) {
                         nbjets_loose++;
+                        selectedLooseBJets.push_back( thejet );
+                        std::cout << "Selected Loose B Jet: Pt = " << thejet->pt() << ", eta = " << thejet->eta() << std::endl; 
                     }
 
                     if( bDiscriminatorValue > bDiscriminator_[1] ) {
@@ -272,7 +294,7 @@ namespace flashgg {
             }
 
             if ( nGoodJets < 2 ) { continue; }
-            if ( nFwdJets  > 1 ) { continue; }
+            if ( nFwdJets  < 1 ) { continue; }
 
 
             if (debugMode) {
