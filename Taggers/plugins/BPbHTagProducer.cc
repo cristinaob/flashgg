@@ -29,6 +29,7 @@
 #include "TMath.h"
 #include "TMVA/Reader.h"
 
+
 using namespace std;
 using namespace edm;
 
@@ -188,14 +189,18 @@ namespace flashgg {
             edm::Ptr<flashgg::DiPhotonMVAResult> mvares = mvaResults->ptrAt(diphoIndex);
 
             idmva1 = dipho->leadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
-            idmva2 = dipho->subLeadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx());
-            double diphotonSysPhi = dipho->leadingPhoton()->phi() + dipho->subLeadingPhoton()->phi();
+            idmva2 = dipho->subLeadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx()); 
 
+            double diphotonMass    = dipho->mass();
+            double diphotonSysPhi  = dipho->leadingPhoton()->phi() + dipho->subLeadingPhoton()->phi();
+
+         
             if (debugMode) {   
               std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
               std::cout << "leading g Pt " << dipho->leadingPhoton()->pt() << std::endl;
               std::cout << "subLeading g Pt " << dipho->subLeadingPhoton()->pt() << std::endl;
               std::cout << "DPhi of Diphoton System = " << diphotonSysPhi << std::endl;
+              std::cout << "Mass of the diphoton system " << diphotonMass  << std::endl;            
             }
 
             // ------------------------------
@@ -242,7 +247,7 @@ namespace flashgg {
             int nbjets_loose = 0;
             int nbjets_medium = 0;
             int nbjets_tight = 0;
-
+            
             for ( unsigned int jetIndex = 0; jetIndex < Jets[jetCollectionIndex]->size() ; jetIndex++ ) {
 
                 edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
@@ -260,9 +265,13 @@ namespace flashgg {
                 double DPhi_bjet_dipho = std::abs( thejet->phi() - diphotonSysPhi );
                 if ( DPhi_bjet_dipho > M_PI ) { DPhi_bjet_dipho = 2 * M_PI - DPhi_bjet_dipho; }
 
+                float bjet_Mass  = thejet->mass();
+                double BprimeMass = diphotonMass + bjet_Mass;
+
                 std::cout << "Jets Eta Threshold: " << jetEtaThreshold_ << std::endl;
                 std::cout << "Jets Pt Threshold: " << jetPtThreshold_ << std::endl;   
                 std::cout << "DPhi between bjet and diphoton system: " << DPhi_bjet_dipho << std::endl;
+                std::cout << " *** B Prime Mass = " << BprimeMass << " *** " << std::endl;
 
                 nGoodJets++;
 	      
@@ -295,15 +304,14 @@ namespace flashgg {
 
             if ( nGoodJets < 2 ) { continue; }
             if ( nFwdJets  < 1 ) { continue; }
-
+            
 
             if (debugMode) {
               std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
               std::cout << "loose bjets: " << nbjets_loose << std::endl;
               std::cout << "medium bjets: " << nbjets_medium << std::endl;
               std::cout << "tight bjets: " << nbjets_tight << std::endl;
-              std::cout << "N Fwd Jets: " << nFwdJets << std::endl;
-              
+              std::cout << "N Fwd Jets: " << nFwdJets << std::endl; 
             }
 
             if (debugMode) std::cout << "Passed cuts!" << std::endl;
