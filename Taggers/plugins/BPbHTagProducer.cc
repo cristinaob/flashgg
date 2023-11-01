@@ -13,6 +13,8 @@
 #include "flashgg/DataFormats/interface/Muon.h"
 #include "flashgg/Taggers/interface/LeptonSelection2018.h"
 
+#include "TLorentzVector.h"
+
 #include "FWCore/Common/interface/TriggerNames.h"
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -194,7 +196,6 @@ namespace flashgg {
             double diphotonMass    = dipho->mass();
             double diphotonSysPhi  = dipho->leadingPhoton()->phi() + dipho->subLeadingPhoton()->phi();
 
-         
             if (debugMode) {   
               std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
               std::cout << "leading g Pt " << dipho->leadingPhoton()->pt() << std::endl;
@@ -235,22 +236,28 @@ namespace flashgg {
 
             // ------------------------------
             // Cut 3: jets
-            unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();
-            
+            unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();            
+           // unsigned int bjetCollectionIndex = diPhotons->ptrAt(diphoIndex)->bjetCollectionIndex();
 
             if (debugMode) std::cout << "jetCollectionIndex: " << jetCollectionIndex << std::endl;
+           // if (debugMode) std::cout << "bjetCollectionIndex: " << bjetCollectionIndex << std::endl;
 
             std::vector<edm::Ptr<flashgg::Jet>> selectedLooseBJets;
 
-            int nGoodJets = 0;
-            int nFwdJets = 0;
-            int nbjets_loose = 0;
-            int nbjets_medium = 0;
-            int nbjets_tight = 0;
-            
+            int nGoodJets        = 0;
+            int nFwdJets         = 0;
+            int nbjets_loose     = 0;
+            int nbjets_medium    = 0;
+            int nbjets_tight     = 0;
+            double bJetLooseMass = 0;         
+
+
             for ( unsigned int jetIndex = 0; jetIndex < Jets[jetCollectionIndex]->size() ; jetIndex++ ) {
 
                 edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
+
+                // Calculate the mass of the Forwardq jet
+                double FwdjetMass = thejet->p4().M();
 
                 if( fabs( thejet->eta() ) > jetEtaThreshold_ ) { continue; }
                 if(!thejet->passesJetID  ( flashgg::Tight2017 ) ) { continue; }
@@ -265,13 +272,10 @@ namespace flashgg {
                 double DPhi_bjet_dipho = std::abs( thejet->phi() - diphotonSysPhi );
                 if ( DPhi_bjet_dipho > M_PI ) { DPhi_bjet_dipho = 2 * M_PI - DPhi_bjet_dipho; }
 
-                float bjet_Mass  = thejet->mass();
-                double BprimeMass = diphotonMass + bjet_Mass;
 
                 std::cout << "Jets Eta Threshold: " << jetEtaThreshold_ << std::endl;
                 std::cout << "Jets Pt Threshold: " << jetPtThreshold_ << std::endl;   
                 std::cout << "DPhi between bjet and diphoton system: " << DPhi_bjet_dipho << std::endl;
-                std::cout << " *** B Prime Mass = " << BprimeMass << " *** " << std::endl;
 
                 nGoodJets++;
 	      
@@ -285,8 +289,10 @@ namespace flashgg {
 
                     if ( bDiscriminatorValue > bDiscriminator_[0] ) {
                         nbjets_loose++;
+                        bJetLooseMass = thejet->p4().M();
                         selectedLooseBJets.push_back( thejet );
                         std::cout << "Selected Loose B Jet: Pt = " << thejet->pt() << ", eta = " << thejet->eta() << std::endl; 
+                        std::cout << "b jet loose mass: " << bJetLooseMass << std::endl;
                     }
 
                     if( bDiscriminatorValue > bDiscriminator_[1] ) {
@@ -298,8 +304,10 @@ namespace flashgg {
                     }
                 } else {
                     nFwdJets++;
+                    std::cout << "Forward jet mass: " << FwdjetMass << std::endl;
                 }
-
+            double Bprime_Mass = diphotonMass + bJetLooseMass ;
+            std::cout << " ************** B prime mass: " << Bprime_Mass << "***************" << std::endl;
             }
 
             if ( nGoodJets < 2 ) { continue; }
