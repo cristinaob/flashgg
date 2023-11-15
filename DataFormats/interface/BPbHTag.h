@@ -28,6 +28,7 @@ namespace flashgg {
 	   // void setJets( std::vector<edm::Ptr<Jet> > Jets ) { Jets_ = Jets; }   
 
 
+
  };
 
 } // closing 'namespace flashgg'

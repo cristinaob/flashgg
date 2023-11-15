@@ -45,6 +45,9 @@ namespace flashgg {
 
         public:
             BPbHTagProducer(const ParameterSet &);
+
+            float totalMediumBJetMass = 0.0;   
+
         private:
             void produce(Event &, const EventSetup &) override;
 
@@ -58,6 +61,7 @@ namespace flashgg {
             typedef std::vector<edm::Handle<edm::View<flashgg::Jet> > > JetCollectionVector;
             std::vector<edm::InputTag> inputTagJets_;
             std::vector<edm::EDGetTokenT<View<flashgg::Jet> > > tokenJets_;
+            EDGetTokenT<View<reco::GenJet> > genJetToken_;
 
             // photons
             double leadPhoOverMassThreshold_;
@@ -127,7 +131,7 @@ namespace flashgg {
 
         debug_ = iConfig.getParameter<bool>( "debug" );
 
-        debugMode = true;
+        debugMode = false;
 
         inputJetsCollSize_= iConfig.getParameter<unsigned int> ( "JetsCollSize" );
 
@@ -171,10 +175,13 @@ namespace flashgg {
           evt.getByToken( tokenJets_[j], Jets[j] );
         }
 
+        TTree* tree = new TTree("JetTree", "Tree with jet information");
+        tree->Branch("jetMass", &totalMediumBJetMass, "jetMass/F" );
+
         // Declaring and initializing variables
         double idmva1 = 0.0;
         double idmva2 = 0.0;
-
+        
         std::unique_ptr<vector<BPbHTag> > bpbhtags( new vector<BPbHTag> );
 
         if (debugMode) std::cout << "=======> New Event" << std::endl;
@@ -194,7 +201,9 @@ namespace flashgg {
             idmva2 = dipho->subLeadingPhoton()->phoIdMvaDWrtVtx(dipho->vtx()); 
 
             double diphotonMass    = dipho->mass();
-            double diphotonSysPhi  = dipho->leadingPhoton()->phi() + dipho->subLeadingPhoton()->phi();
+            double diphotonPt      = dipho->pt();
+            double diphotonSysPhi  = dipho->phi();
+            double diphotonEta     = dipho->eta();
 
             if (debugMode) {   
               std::cout << "diphoIndex " << diphoIndex << " leading pT: " << dipho->leadingPhoton()->pt() << std::endl;
@@ -213,12 +222,15 @@ namespace flashgg {
             if (dipho->subLeadingPhoton()->pt() < (dipho->mass())*subleadPhoOverMassThreshold_) { continue; }
             if (idmva1 < PhoMVAThreshold_ || idmva2 < PhoMVAThreshold_) { continue; }
 
-            if ( diphotonSysPhi > M_PI ){
-                 diphotonSysPhi -= 2 * M_PI;
-            } else if ( diphotonSysPhi < -M_PI ){
-                diphotonSysPhi += 2 * M_PI;
-            } 
+            //if ( diphotonSysPhi > M_PI ){
+            //     diphotonSysPhi -= 2 * M_PI;
+            //} else if ( diphotonSysPhi < -M_PI ){
+            //    diphotonSysPhi += 2 * M_PI;
+            //} 
 
+            TLorentzVector diphotonVector;
+            diphotonVector.SetPtEtaPhiM(diphotonPt, diphotonEta, diphotonSysPhi, diphotonMass);
+            
             // ------------------------------
             // Cut 2: lepton veto
             std::vector<edm::Ptr<flashgg::Muon>> Muons;
@@ -236,28 +248,21 @@ namespace flashgg {
 
             // ------------------------------
             // Cut 3: jets
+            std::vector<TLorentzVector> mediumBJetVectors;
             unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();            
-           // unsigned int bjetCollectionIndex = diPhotons->ptrAt(diphoIndex)->bjetCollectionIndex();
-
+         
             if (debugMode) std::cout << "jetCollectionIndex: " << jetCollectionIndex << std::endl;
-           // if (debugMode) std::cout << "bjetCollectionIndex: " << bjetCollectionIndex << std::endl;
-
-            std::vector<edm::Ptr<flashgg::Jet>> selectedLooseBJets;
-
+          
             int nGoodJets        = 0;
             int nFwdJets         = 0;
             int nbjets_loose     = 0;
             int nbjets_medium    = 0;
             int nbjets_tight     = 0;
-            double bJetLooseMass = 0;         
-
-
+         
             for ( unsigned int jetIndex = 0; jetIndex < Jets[jetCollectionIndex]->size() ; jetIndex++ ) {
 
                 edm::Ptr<flashgg::Jet> thejet = Jets[jetCollectionIndex]->ptrAt( jetIndex );
-
-                // Calculate the mass of the Forwardq jet
-                double FwdjetMass = thejet->p4().M();
+                
 
                 if( fabs( thejet->eta() ) > jetEtaThreshold_ ) { continue; }
                 if(!thejet->passesJetID  ( flashgg::Tight2017 ) ) { continue; }
@@ -269,17 +274,10 @@ namespace flashgg {
                 if( dRPhoLeadJet < dRJetPhoLeadCut_ || dRPhoSubLeadJet < dRJetPhoSubleadCut_ ) { continue; }
                 if( thejet->pt() < jetPtThreshold_ ) { continue; }
                 
-                double DPhi_bjet_dipho = std::abs( thejet->phi() - diphotonSysPhi );
-                if ( DPhi_bjet_dipho > M_PI ) { DPhi_bjet_dipho = 2 * M_PI - DPhi_bjet_dipho; }
-
-
-                std::cout << "Jets Eta Threshold: " << jetEtaThreshold_ << std::endl;
-                std::cout << "Jets Pt Threshold: " << jetPtThreshold_ << std::endl;   
-                std::cout << "DPhi between bjet and diphoton system: " << DPhi_bjet_dipho << std::endl;
-
                 nGoodJets++;
 	      
                 float bDiscriminatorValue;
+                // jets centrales eta < 2.5
                 if ( fabs(thejet->eta()) < 2.5) {
                     if (bTag_ == "pfDeepCSV") {
                         bDiscriminatorValue = thejet->bDiscriminator("pfDeepCSVJetTags:probb") + thejet->bDiscriminator("pfDeepCSVJetTags:probbb");
@@ -289,53 +287,62 @@ namespace flashgg {
 
                     if ( bDiscriminatorValue > bDiscriminator_[0] ) {
                         nbjets_loose++;
-                        bJetLooseMass = thejet->p4().M();
-                        selectedLooseBJets.push_back( thejet );
-                        std::cout << "Selected Loose B Jet: Pt = " << thejet->pt() << ", eta = " << thejet->eta() << std::endl; 
-                        std::cout << "b jet loose mass: " << bJetLooseMass << std::endl;
                     }
 
                     if( bDiscriminatorValue > bDiscriminator_[1] ) {
                         nbjets_medium++;
+                        TLorentzVector bJetMediumVector;
+                        bJetMediumVector.SetPtEtaPhiE(thejet->pt(), thejet->eta(), thejet->phi(), thejet->energy());
+                        mediumBJetVectors.push_back(bJetMediumVector);
                     }
 
                     if( bDiscriminatorValue > bDiscriminator_[2] ) {
                         nbjets_tight++;
                     }
-                } else {
+                } else {//candidatos a Fwd jets eta > 2.5
                     nFwdJets++;
-                    std::cout << "Forward jet mass: " << FwdjetMass << std::endl;
-                }
-            double Bprime_Mass = diphotonMass + bJetLooseMass ;
-            std::cout << " ************** B prime mass: " << Bprime_Mass << "***************" << std::endl;
+                }    
+           
             }
 
             if ( nGoodJets < 2 ) { continue; }
             if ( nFwdJets  < 1 ) { continue; }
-            
+            if ( mediumBJetVectors.size() < 1) { continue; }
+            // Continuar aqui con bjet mass
+
+            //for (const TLorentzVector &bJetVector : mediumBJetVectors) {
+            //    totalMediumBJetMass = bJetVector.M();
+            //std::cout << "Bjet mass: " << mediumBJetVectors[0].M() << std::endl;
+            //    tree->Fill();
+            //}
+            TLorentzVector Bprime = mediumBJetVectors[0] +  diphotonVector;
+            std::cout << "Bprime mass = " << Bprime.M() << std::endl; 
+            std::cout << "DPhi bjet diPho = " << diphotonVector.DeltaPhi(mediumBJetVectors[0]) << std::endl;
 
             if (debugMode) {
               std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
               std::cout << "loose bjets: " << nbjets_loose << std::endl;
               std::cout << "medium bjets: " << nbjets_medium << std::endl;
               std::cout << "tight bjets: " << nbjets_tight << std::endl;
-              std::cout << "N Fwd Jets: " << nFwdJets << std::endl; 
+              std::cout << "N Fwd Jets: " << nFwdJets << std::endl;  
             }
 
             if (debugMode) std::cout << "Passed cuts!" << std::endl;
 
+            // dejar esto al final
             BPbHTag bpbhtags_obj(dipho,mvares);
             bpbhtags_obj.includeWeights(*dipho);
             bpbhtags_obj.setDiPhotonIndex(diphoIndex);
 
             bpbhtags->push_back(bpbhtags_obj);
+            
 
         } // closing loop over diPhotons
-
+        tree->Write();
         evt.put( std::move(bpbhtags) );
 
-    } // closing 'BPbHTagProducer::produce'
-    
+    } // closing 'BPbHTagProducer::producer
+
 
 } // closing 'namespace flashgg'
 

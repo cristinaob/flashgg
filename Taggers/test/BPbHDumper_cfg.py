@@ -74,7 +74,6 @@ bpbh_variables = [
     "dipho_subleadPhi     := diPhoton.subLeadingPhoton.phi",
     "dipho_subleadE       := diPhoton.subLeadingPhoton.energy",
     "dipho_subleadIDMVA   := diPhoton.subLeadingView.phoIdMvaWrtChosenVtx"
-
 ]
 
 cats = [
