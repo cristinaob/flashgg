@@ -19,17 +19,62 @@ namespace flashgg {
             BPbHTag *clone() const override { return (new BPbHTag(*this)); }
 
             DiPhotonTagBase::tag_t tagEnum() const override { return DiPhotonTagBase::kBPbH; }
-      
-           // const std::vector<edm::Ptr<Muon> > muons() const { return Muons_; }
-	   // const std::vector<edm::Ptr<Jet> > jets() const { return Jets_; }
 
+            // ------------------------------------------------
+            // functions to add variables to output ntuple
 
-	   // void setMuons( std::vector<edm::Ptr<Muon> > Muons ) { Muons_ = Muons; }
-	   // void setJets( std::vector<edm::Ptr<Jet> > Jets ) { Jets_ = Jets; }   
+            // -----------------------
+            // mass of candidate BP
 
+            float getBP_mass() const {  // function to be called by dumper
+                return BP_mass_;
+            }
 
+            void setBP_mass(float BP_mass) {  // function called by plugin to fill variable called by dumper
+                BP_mass_ = BP_mass;
+            }
 
- };
+            // -----------------------
+            // number of bjets loose
+
+            int getnBjets_loose() const {
+                return nBjets_loose_;
+            }
+
+            void setnBjets_loose(int nBjets_loose) {
+                nBjets_loose_ = nBjets_loose;
+            }
+
+            // -----------------------
+            // number of bjets medium
+
+            int getnBjets_med() const {
+                return nBjets_med_;
+            }
+
+            void setnBjets_med(int nBjets_med) {
+                nBjets_med_ = nBjets_med;
+            }
+
+            // -----------------------
+            // number of bjets tight
+
+            int getnBjets_tight() const {
+                return nBjets_tight_;
+            }
+
+            void setnBjets_tight(int nBjets_tight) {
+                nBjets_tight_ = nBjets_tight;
+            }
+
+        private:
+            
+            float BP_mass_;
+            int nBjets_loose_; 
+            int nBjets_med_;
+            int nBjets_tight_;
+
+    };
 
 } // closing 'namespace flashgg'
 
