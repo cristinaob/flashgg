@@ -77,11 +77,43 @@ bpbh_variables = [
     ,"dipho_subleadE       := diPhoton.subLeadingPhoton.energy"
     ,"dipho_subleadIDMVA   := diPhoton.subLeadingView.phoIdMvaWrtChosenVtx"
 
+    ,"dipho_mass_2         := getDiphoton_mass()"
+    ,"diphoton_pt          := getDiphoton_pt()"
+    ,"diphoton_eta         := getDiphoton_eta()"
+    ,"diphoton_phi         := getDiphoton_phi()"
+
     ,"BPrime_mass          := getBP_mass()"
+    ,"BPrime_pt            := getBP_pt()"
+    ,"BPrime_eta           := getBP_eta()"
+    ,"BPrime_phi           := getBP_phi()"
+
+    ,"bjet_med_mass        := getbjetmed_mass()"
+    ,"bjet_med_pt          := getbjetmed_pt()"
+    ,"bjet_med_eta         := getbjetmed_eta()"
+    ,"bjet_med_phi         := getbjetmed_phi()"
+
+    ,"Fwdjet_mass          := getFwdjet_mass()"
+    ,"Fwdjet_pt            := getFwdjet_pt()"
+    ,"Fwdjet_eta           := getFwdjet_eta()"
+    ,"Fwdjet_phi           := getFwdjet_phi()"
 
     ,"nbjets_loose         := getnBjets_loose()"
     ,"nbjets_med           := getnBjets_med()"
     ,"nbjets_tight         := getnBjets_tight()"
+    ,"nFwdJets             := getnFwdJets()"
+
+    ,"dR_bmedjet_diphoton  := getdRbmedjet_dipho()"
+    ,"dEta_bmedjet_diphoton:= getdEtabmedjet_dipho()"
+    ,"dPhi_bmedjet_diphoton:= getdPhibmedjet_dipho()"
+    
+    ,"dR_bmedjet_Fwdjet    := getdRbmedjet_Fwdjet()"
+    ,"dEta_bmedjet_Fwdjet  := getdEtabmedjet_Fwdjet()"
+    ,"dPhi_bmedjet_Fwdjet  := getdPhibmedjet_Fwdjet()"
+
+    ,"dR_Fwdjet_dipho      := getdRFwdjet_dipho()"
+    ,"dEta_Fwdjet_dipho    := getdEtaFwdjet_dipho()"
+    ,"dPhi_Fwdjet_dipho    := getdPhiFwdjet_dipho()"
+
 ]
 
 cats = [

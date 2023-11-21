@@ -67,6 +67,10 @@ namespace flashgg {
             double leadPhoOverMassThreshold_;
             double subleadPhoOverMassThreshold_;
             double PhoMVAThreshold_;
+            float  diphoton_Mass_;
+            float  diphoton_Pt_;
+            float  diphoton_Eta_;
+            float  diphoton_Phi_;
 
             // leptons            
             double MuonEtaCut_;
@@ -93,12 +97,43 @@ namespace flashgg {
             int nbjets_loose_;
             int nbjets_med_;
             int nbjets_tight_;
+            int nFwdJets_;
 
             // others
             bool debugMode;
 
             // BP candidate
             float BP_mass_;
+            float BP_pt_;
+            float BP_eta_;
+            float BP_phi_;
+
+            // bjet_med
+            float bjet_med_mass_;
+            float bjet_med_pt_;
+            float bjet_med_eta_;
+            float bjet_med_phi_;
+
+            // Fwd jet
+            float Fwdjet_mass_;
+            float Fwdjet_pt_;
+            float Fwdjet_eta_;
+            float Fwdjet_phi_;
+
+            // dR s
+            float dR_bmedjet_dipho_;
+            float dR_bmedjet_Fwdjet_;
+            float dR_Fwdjet_dipho_;
+
+            // dEta s
+            float dEta_bmedjet_dipho_;
+            float dEta_bmedjet_Fwdjet_;
+            float dEta_Fwdjet_dipho_;
+
+            // dPhi s
+            float dPhi_bmedjet_dipho_;
+            float dPhi_bmedjet_Fwdjet_;
+            float dPhi_Fwdjet_dipho_;
 
     }; // closing 'class BPbHTagProducer'
 
@@ -226,7 +261,11 @@ namespace flashgg {
 
             // ------------------------------
             // loop over jets
+            std::vector<TLorentzVector> looseBJetVectors;
             std::vector<TLorentzVector> mediumBJetVectors;
+            std::vector<TLorentzVector> tightBJetVectors;
+            std::vector<TLorentzVector> FwdJetVectors;
+
             unsigned int jetCollectionIndex = diPhotons->ptrAt( diphoIndex )->jetCollectionIndex();            
          
             int nGoodJets = 0;
@@ -262,6 +301,9 @@ namespace flashgg {
 
                     if ( bDiscriminatorValue > bDiscriminator_[0] ) {
                         nbjets_loose++;
+                        TLorentzVector bJetLooseVector;
+                        bJetLooseVector.SetPtEtaPhiE(thejet->pt(), thejet->eta(), thejet->phi(), thejet->energy());
+                        looseBJetVectors.push_back(bJetLooseVector);
                     }
 
                     if( bDiscriminatorValue > bDiscriminator_[1] ) {
@@ -273,10 +315,16 @@ namespace flashgg {
 
                     if( bDiscriminatorValue > bDiscriminator_[2] ) {
                         nbjets_tight++;
+                        TLorentzVector bJetTightVector;
+                        bJetTightVector.SetPtEtaPhiE(thejet->pt(), thejet->eta(), thejet->phi(), thejet->energy());
+                        tightBJetVectors.push_back(bJetTightVector);
                     }
                 } else {
                     // forward jets
                     nFwdJets++;
+                    TLorentzVector FwdJetVector;
+                    FwdJetVector.SetPtEtaPhiE(thejet->pt(), thejet->eta(), thejet->phi(), thejet->energy());
+                    FwdJetVectors.push_back(FwdJetVector);
                 }    
            
             }
@@ -304,15 +352,47 @@ namespace flashgg {
             TLorentzVector diphotonVector;
             diphotonVector.SetPtEtaPhiM(diphotonPt, diphotonEta, diphotonPhi, diphotonMass);
 
+            diphoton_Mass_ = diphotonVector.M();
+            diphoton_Pt_   = diphotonVector.Pt();
+            diphoton_Eta_  = diphotonVector.Eta();
+            diphoton_Phi_  = diphotonVector.Phi();
+
             TLorentzVector Bprime = mediumBJetVectors[0] +  diphotonVector;
             BP_mass_ = Bprime.M();
+            BP_pt_   = Bprime.Pt();
+            BP_eta_  = Bprime.Eta();
+            BP_phi_  = Bprime.Phi();
 
-            nbjets_loose_ = nbjets_loose;
-            nbjets_med_ = nbjets_medium;
-            nbjets_tight_ = nbjets_tight;
+            bjet_med_mass_ = mediumBJetVectors[0].M();
+            bjet_med_pt_   = mediumBJetVectors[0].Pt();
+            bjet_med_eta_  = mediumBJetVectors[0].Eta();
+            bjet_med_phi_  = mediumBJetVectors[0].Phi();
+
+            Fwdjet_mass_   = FwdJetVectors[0].M();
+            Fwdjet_pt_     = FwdJetVectors[0].Pt();
+            Fwdjet_eta_    = FwdJetVectors[0].Eta();
+            Fwdjet_phi_    = FwdJetVectors[0].Phi();
+
+            nbjets_loose_  = nbjets_loose;
+            nbjets_med_    = nbjets_medium;
+            nbjets_tight_  = nbjets_tight;
+            nFwdJets_      = nFwdJets;
+
+            dR_bmedjet_dipho_   = mediumBJetVectors[0].DeltaR(diphotonVector);
+            dPhi_bmedjet_dipho_ = mediumBJetVectors[0].DeltaPhi(diphotonVector);
+            dEta_bmedjet_dipho_ = mediumBJetVectors[0].Eta() - diphoton_Eta_;
+
+            dR_bmedjet_Fwdjet_  = mediumBJetVectors[0].DeltaR(FwdJetVectors[0]);
+            dPhi_bmedjet_Fwdjet_= mediumBJetVectors[0].DeltaPhi(FwdJetVectors[0]);
+            dEta_bmedjet_Fwdjet_= mediumBJetVectors[0].Eta() - FwdJetVectors[0].Eta();
+
+            dR_Fwdjet_dipho_    = FwdJetVectors[0].DeltaR(diphotonVector);
+            dPhi_Fwdjet_dipho_  = FwdJetVectors[0].DeltaPhi(diphotonVector);
+            dEta_Fwdjet_dipho_  = FwdJetVectors[0].Eta() - diphoton_Eta_;
 
             if (debugMode) {
                 std::cout << "Bprime mass = " << Bprime.M() << std::endl; 
+                std::cout << "Bprime Pt = " << Bprime.Pt() << std::endl;
                 std::cout << "DPhi bjet diPho = " << diphotonVector.DeltaPhi(mediumBJetVectors[0]) << std::endl;
                 std::cout << "Found " << nGoodJets << " good jets, out of " << Jets[jetCollectionIndex]->size() << "." << std::endl;
                 std::cout << "loose bjets: " << nbjets_loose << std::endl;
@@ -329,15 +409,52 @@ namespace flashgg {
             // photons
             bpbhtags_obj.includeWeights(*dipho);
             bpbhtags_obj.setDiPhotonIndex(diphoIndex);
+
+            bpbhtags_obj.setDiphoton_mass(diphoton_Mass_);
+            bpbhtags_obj.setDiphoton_pt(diphoton_Pt_);
+            bpbhtags_obj.setDiphoton_eta(diphoton_Eta_);
+            bpbhtags_obj.setDiphoton_phi(diphoton_Phi_);
+
             // BP candidate
             bpbhtags_obj.setBP_mass(BP_mass_);
+            bpbhtags_obj.setBP_pt(BP_pt_);
+            bpbhtags_obj.setBP_eta(BP_eta_);
+            bpbhtags_obj.setBP_phi(BP_phi_);
+
+            // bjet_med 
+            bpbhtags_obj.setbjetmed_mass(bjet_med_mass_);
+            bpbhtags_obj.setbjetmed_pt(bjet_med_pt_);
+            bpbhtags_obj.setbjetmed_eta(bjet_med_eta_);
+            bpbhtags_obj.setbjetmed_phi(bjet_med_phi_);
+
+            // Fwd jet
+            bpbhtags_obj.setFwdjet_mass(Fwdjet_mass_);
+            bpbhtags_obj.setFwdjet_pt(Fwdjet_pt_);
+            bpbhtags_obj.setFwdjet_eta(Fwdjet_eta_);
+            bpbhtags_obj.setFwdjet_phi(Fwdjet_phi_);
+
             // jets
             bpbhtags_obj.setnBjets_loose(nbjets_loose_);
             bpbhtags_obj.setnBjets_med(nbjets_med_);
             bpbhtags_obj.setnBjets_tight(nbjets_tight_);
+            bpbhtags_obj.setnFwdJets(nFwdJets_);
             
-            bpbhtags->push_back(bpbhtags_obj);
-            
+            // dR
+            bpbhtags_obj.setdRbmedjet_dipho(dR_bmedjet_dipho_);
+            bpbhtags_obj.setdRbmedjet_Fwdjet(dR_bmedjet_Fwdjet_);
+            bpbhtags_obj.setdRFwdjet_dipho(dR_Fwdjet_dipho_);
+
+            // dEta
+            bpbhtags_obj.setdEtabmedjet_dipho(dEta_bmedjet_dipho_);
+            bpbhtags_obj.setdEtabmedjet_Fwdjet(dEta_bmedjet_Fwdjet_);
+            bpbhtags_obj.setdEtaFwdjet_dipho(dEta_Fwdjet_dipho_);
+
+            // dPhi
+            bpbhtags_obj.setdPhibmedjet_dipho(dPhi_bmedjet_dipho_);
+            bpbhtags_obj.setdPhibmedjet_Fwdjet(dPhi_bmedjet_Fwdjet_);
+            bpbhtags_obj.setdPhiFwdjet_dipho(dPhi_Fwdjet_dipho_);
+
+            bpbhtags->push_back(bpbhtags_obj);    
 
         } // closing loop over diPhotons
 
