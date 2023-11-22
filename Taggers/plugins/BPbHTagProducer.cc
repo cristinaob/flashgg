@@ -71,6 +71,7 @@ namespace flashgg {
             float  diphoton_Pt_;
             float  diphoton_Eta_;
             float  diphoton_Phi_;
+            float  diphoton_mt_;
 
             // leptons            
             double MuonEtaCut_;
@@ -107,18 +108,21 @@ namespace flashgg {
             float BP_pt_;
             float BP_eta_;
             float BP_phi_;
+            float BP_mt_;
 
             // bjet_med
             float bjet_med_mass_;
             float bjet_med_pt_;
             float bjet_med_eta_;
             float bjet_med_phi_;
+            float bjet_med_mt_;
 
             // Fwd jet
             float Fwdjet_mass_;
             float Fwdjet_pt_;
             float Fwdjet_eta_;
             float Fwdjet_phi_;
+            float Fwdjet_mt_;
 
             // dR s
             float dR_bmedjet_dipho_;
@@ -134,6 +138,8 @@ namespace flashgg {
             float dPhi_bmedjet_dipho_;
             float dPhi_bmedjet_Fwdjet_;
             float dPhi_Fwdjet_dipho_;
+
+            float Ht_;
 
     }; // closing 'class BPbHTagProducer'
 
@@ -356,27 +362,34 @@ namespace flashgg {
             diphoton_Pt_   = diphotonVector.Pt();
             diphoton_Eta_  = diphotonVector.Eta();
             diphoton_Phi_  = diphotonVector.Phi();
+            diphoton_mt_   = diphotonVector.Mt();
 
             TLorentzVector Bprime = mediumBJetVectors[0] +  diphotonVector;
             BP_mass_ = Bprime.M();
             BP_pt_   = Bprime.Pt();
             BP_eta_  = Bprime.Eta();
             BP_phi_  = Bprime.Phi();
+            BP_mt_   = Bprime.Mt();
 
             bjet_med_mass_ = mediumBJetVectors[0].M();
             bjet_med_pt_   = mediumBJetVectors[0].Pt();
             bjet_med_eta_  = mediumBJetVectors[0].Eta();
             bjet_med_phi_  = mediumBJetVectors[0].Phi();
+            bjet_med_mt_   = mediumBJetVectors[0].Mt();
 
             Fwdjet_mass_   = FwdJetVectors[0].M();
             Fwdjet_pt_     = FwdJetVectors[0].Pt();
             Fwdjet_eta_    = FwdJetVectors[0].Eta();
             Fwdjet_phi_    = FwdJetVectors[0].Phi();
+            Fwdjet_mt_     = FwdJetVectors[0].Mt();
 
             nbjets_loose_  = nbjets_loose;
             nbjets_med_    = nbjets_medium;
             nbjets_tight_  = nbjets_tight;
             nFwdJets_      = nFwdJets;
+
+            // Ht 
+            Ht_ = diphoton_Pt_ + BP_pt_ + Fwdjet_pt_ + bjet_med_pt_ ;
 
             dR_bmedjet_dipho_   = mediumBJetVectors[0].DeltaR(diphotonVector);
             dPhi_bmedjet_dipho_ = mediumBJetVectors[0].DeltaPhi(diphotonVector);
@@ -414,24 +427,28 @@ namespace flashgg {
             bpbhtags_obj.setDiphoton_pt(diphoton_Pt_);
             bpbhtags_obj.setDiphoton_eta(diphoton_Eta_);
             bpbhtags_obj.setDiphoton_phi(diphoton_Phi_);
+            bpbhtags_obj.setDiphoton_mt(diphoton_mt_);
 
             // BP candidate
             bpbhtags_obj.setBP_mass(BP_mass_);
             bpbhtags_obj.setBP_pt(BP_pt_);
             bpbhtags_obj.setBP_eta(BP_eta_);
             bpbhtags_obj.setBP_phi(BP_phi_);
+            bpbhtags_obj.setBP_mt(BP_mt_);
 
             // bjet_med 
             bpbhtags_obj.setbjetmed_mass(bjet_med_mass_);
             bpbhtags_obj.setbjetmed_pt(bjet_med_pt_);
             bpbhtags_obj.setbjetmed_eta(bjet_med_eta_);
             bpbhtags_obj.setbjetmed_phi(bjet_med_phi_);
+            bpbhtags_obj.setbjetmed_mt(bjet_med_mt_);
 
             // Fwd jet
             bpbhtags_obj.setFwdjet_mass(Fwdjet_mass_);
             bpbhtags_obj.setFwdjet_pt(Fwdjet_pt_);
             bpbhtags_obj.setFwdjet_eta(Fwdjet_eta_);
             bpbhtags_obj.setFwdjet_phi(Fwdjet_phi_);
+            bpbhtags_obj.setFwdjet_mt(Fwdjet_mt_);
 
             // jets
             bpbhtags_obj.setnBjets_loose(nbjets_loose_);
@@ -453,6 +470,8 @@ namespace flashgg {
             bpbhtags_obj.setdPhibmedjet_dipho(dPhi_bmedjet_dipho_);
             bpbhtags_obj.setdPhibmedjet_Fwdjet(dPhi_bmedjet_Fwdjet_);
             bpbhtags_obj.setdPhiFwdjet_dipho(dPhi_Fwdjet_dipho_);
+
+            bpbhtags_obj.setHt(Ht_);
 
             bpbhtags->push_back(bpbhtags_obj);    
 

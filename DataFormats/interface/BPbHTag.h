@@ -64,6 +64,15 @@ namespace flashgg {
             }
 
             // -----------------------
+            // mt of candidate BP
+            float getBP_mt() const {  // function to be called by dumper
+                return BP_mt_;
+            }
+            void setBP_mt(float BP_mt) {  // function called by plugin to fill variable called by dumper
+                BP_mt_ = BP_mt;
+            }
+            
+            // -----------------------
             // mass of the diphoton
             float getDiphoton_mass() const {
                 return diphoton_Mass_;
@@ -104,6 +113,16 @@ namespace flashgg {
             }
 
             // -----------------------
+            // mt of the diphoton
+            float getDiphoton_mt() const {
+                return diphoton_mt_;
+            }
+            void setDiphoton_mt(float diphoton_mt) {
+                diphoton_mt_ = diphoton_mt;
+            }
+  
+
+            // -----------------------
             // mass of the bjet med 
             float getbjetmed_mass() const {
                 return bjet_med_mass_;
@@ -140,6 +159,15 @@ namespace flashgg {
             }
 
             // -----------------------
+            // mt of the bjet med 
+            float getbjetmed_mt() const {
+                return bjet_med_mt_;
+            }
+            void setbjetmed_mt(float bjet_med_mt) {
+                bjet_med_mt_ = bjet_med_mt;
+            }
+      
+            // -----------------------
             // mass Fwd jet
             float getFwdjet_mass() const { 
                 return Fwdjet_mass_;
@@ -172,13 +200,17 @@ namespace flashgg {
             void setFwdjet_phi(float Fwdjet_phi) {
                 Fwdjet_phi_ = Fwdjet_phi;
             }
+ 
+            // -----------------------
+            // mt Fwd jet
+            float getFwdjet_mt() const {
+                return Fwdjet_mt_;
+            }
+            void setFwdjet_mt(float Fwdjet_mt) {
+                Fwdjet_mt_ = Fwdjet_mt;
+            }
+           
             
-            
-            
-            
-
-
-
             // -----------------------
             // number of Fwd jets
     
@@ -305,29 +337,40 @@ namespace flashgg {
                dPhi_Fwdjet_dipho_ = dPhi_Fwdjet_dipho;
            }
            
+           // -----------------------
+           // Ht
+           float getHt() const{
+               return Ht_;
+           }
+           void setHt(float Ht) {
+               Ht_ = Ht;
+           }
            
-
         private:
             
             float diphoton_Mass_;
             float diphoton_Pt_;
             float diphoton_Eta_;
             float diphoton_Phi_;
+            float diphoton_mt_;
 
             float BP_mass_;
             float BP_pt_;
             float BP_eta_;
             float BP_phi_;
+            float BP_mt_;
             
             float bjet_med_mass_;
             float bjet_med_pt_;
             float bjet_med_eta_;
             float bjet_med_phi_;
+            float bjet_med_mt_;
 
             float Fwdjet_mass_;
             float Fwdjet_pt_;
             float Fwdjet_eta_;
             float Fwdjet_phi_;
+            float Fwdjet_mt_;
 
             int   nBjets_loose_; 
             int   nBjets_med_;
@@ -345,6 +388,8 @@ namespace flashgg {
             float dR_Fwdjet_dipho_;
             float dEta_Fwdjet_dipho_;
             float dPhi_Fwdjet_dipho_;
+            
+            float Ht_;
 
     };
 
