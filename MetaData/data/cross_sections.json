@@ -422,5 +422,7 @@
     "ZZ_TuneCUETP8M1_13TeV-pythia8"                                        : { "xs" : 10.16  },
     "WW_TuneCP5_13TeV-pythia8"                                             : { "xs" : 75.8   },
     "WZ_TuneCP5_13TeV-pythia8"                                             : { "xs" : 27.6   },
-    "ZZ_TuneCP5_13TeV-pythia8"                                             : { "xs" : 12.14  }
+    "ZZ_TuneCP5_13TeV-pythia8"                                             : { "xs" : 12.14  },
+    
+    "BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8"                : { "xs" : 0.006  }
 }

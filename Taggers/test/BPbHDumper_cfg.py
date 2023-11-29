@@ -22,7 +22,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("BprimeBtoBH_Hgg_M1000_1_test.root"))
+                                   fileName = cms.string("/afs/cern.ch/user/r/rdalialu/BprimeBtoBH_Hgg_M1000_1_test.root"))
 
 from flashgg.MetaData.JobConfig import customize
 
@@ -82,24 +82,28 @@ bpbh_variables = [
     ,"diphoton_eta         := getDiphoton_eta()"
     ,"diphoton_phi         := getDiphoton_phi()"
     ,"diphoton_mt          := getDiphoton_mt()"
+    ,"diphoton_y           := getDiphoton_y()"
 
     ,"BPrime_mass          := getBP_mass()"
     ,"BPrime_pt            := getBP_pt()"
     ,"BPrime_eta           := getBP_eta()"
     ,"BPrime_phi           := getBP_phi()"
     ,"BPrime_mt            := getBP_mt()"
+    ,"BPrime_y             := getBP_y()"
 
     ,"bjet_med_mass        := getbjetmed_mass()"
     ,"bjet_med_pt          := getbjetmed_pt()"
     ,"bjet_med_eta         := getbjetmed_eta()"
     ,"bjet_med_phi         := getbjetmed_phi()"
     ,"bjet_med_mt          := getbjetmed_mt()"
+    ,"bjet_med_y           := getbjetmed_y()"
 
     ,"Fwdjet_mass          := getFwdjet_mass()"
     ,"Fwdjet_pt            := getFwdjet_pt()"
     ,"Fwdjet_eta           := getFwdjet_eta()"
     ,"Fwdjet_phi           := getFwdjet_phi()"
     ,"Fwdjet_mt            := getFwdjet_mt()"
+    ,"Fwdjet_y             := getFwdjet_y()"
 
     ,"nbjets_loose         := getnBjets_loose()"
     ,"nbjets_med           := getnBjets_med()"

@@ -63,6 +63,15 @@ namespace flashgg {
                 BP_phi_ = BP_phi;
             }
 
+            // ----------------------
+            // y of candidate BP
+            float getBP_y() const {
+                return BP_y_;
+            }
+            void setBP_y(float BP_y) {
+                BP_y_ = BP_y;
+            }
+
             // -----------------------
             // mt of candidate BP
             float getBP_mt() const {  // function to be called by dumper
@@ -77,7 +86,6 @@ namespace flashgg {
             float getDiphoton_mass() const {
                 return diphoton_Mass_;
             }
-
             void setDiphoton_mass(float diphoton_Mass) {
                 diphoton_Mass_ = diphoton_Mass;
             }
@@ -87,7 +95,6 @@ namespace flashgg {
             float getDiphoton_pt() const {  // function to be called by dumper
                 return diphoton_Pt_;
             }
-
             void setDiphoton_pt(float diphoton_Pt) {  // function called by plugin to fill variable called by dumper
                 diphoton_Pt_ = diphoton_Pt;
             }
@@ -97,7 +104,6 @@ namespace flashgg {
             float getDiphoton_eta() const {  // function to be called by dumper
                 return diphoton_Eta_;
             }
-
             void setDiphoton_eta(float diphoton_Eta) {  // function called by plugin to fill variable called by dumper
                 diphoton_Eta_ = diphoton_Eta;
             }
@@ -107,7 +113,6 @@ namespace flashgg {
             float getDiphoton_phi() const {  // function to be called by dumper
                 return diphoton_Phi_;
             }
-
             void setDiphoton_phi(float diphoton_Phi) {  // function called by plugin to fill variable called by dumper
                 diphoton_Phi_ = diphoton_Phi;
             }
@@ -121,6 +126,15 @@ namespace flashgg {
                 diphoton_mt_ = diphoton_mt;
             }
   
+            // -----------------------
+            // y of the diphoton
+            float getDiphoton_y() const {
+                return diphoton_y_;
+            }
+            void setDiphoton_y(float diphoton_y) {
+                diphoton_y_ = diphoton_y;
+            }
+      
 
             // -----------------------
             // mass of the bjet med 
@@ -166,7 +180,17 @@ namespace flashgg {
             void setbjetmed_mt(float bjet_med_mt) {
                 bjet_med_mt_ = bjet_med_mt;
             }
+
+            // -----------------------
+            // y of the bjet med 
+            float getbjetmed_y() const {
+                return bjet_med_y_;
+            }
+            void setbjetmed_y(float bjet_med_y) {
+                bjet_med_y_ = bjet_med_y;
+            }
       
+
             // -----------------------
             // mass Fwd jet
             float getFwdjet_mass() const { 
@@ -208,6 +232,15 @@ namespace flashgg {
             }
             void setFwdjet_mt(float Fwdjet_mt) {
                 Fwdjet_mt_ = Fwdjet_mt;
+            }
+           
+            // -----------------------
+            // y Fwd jet
+            float getFwdjet_y() const {
+                return Fwdjet_y_;
+            }
+            void setFwdjet_y(float Fwdjet_y) {
+                Fwdjet_y_ = Fwdjet_y;
             }
            
             
@@ -353,24 +386,28 @@ namespace flashgg {
             float diphoton_Eta_;
             float diphoton_Phi_;
             float diphoton_mt_;
+            float diphoton_y_;
 
             float BP_mass_;
             float BP_pt_;
             float BP_eta_;
             float BP_phi_;
             float BP_mt_;
+            float BP_y_;
             
             float bjet_med_mass_;
             float bjet_med_pt_;
             float bjet_med_eta_;
             float bjet_med_phi_;
             float bjet_med_mt_;
+            float bjet_med_y_;
 
             float Fwdjet_mass_;
             float Fwdjet_pt_;
             float Fwdjet_eta_;
             float Fwdjet_phi_;
             float Fwdjet_mt_;
+            float Fwdjet_y_;
 
             int   nBjets_loose_; 
             int   nBjets_med_;

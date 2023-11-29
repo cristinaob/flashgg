@@ -1,0 +1,8 @@
+{ 
+    "processes" : {
+        "bpbh_M1000" : [ "/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8" ]
+        },
+
+    "cmdLine" : "campaign=BprimeBToHB_Hgg_M metaConditions=$CMSSW_BASE/src/flashgg/MetaData/data/MetaConditions/Era2016_RR-17Jul2018_v1.json useAAA=True"
+}
+

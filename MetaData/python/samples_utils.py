@@ -47,7 +47,7 @@ class SamplesManager(object):
     def __init__(self,
                  catalog,
                  cross_sections=["$CMSSW_BASE/src/flashgg/MetaData/data/cross_sections.json"],
-                 dbs_instance="prod/phys03",
+                 dbs_instance="prod/global",
                  queue=None, maxThreads=200,force=False,doContinue=False,maxEntriesPerFile=1000,
                  copyProxy=True
                  ):
@@ -489,8 +489,8 @@ class SamplesManager(object):
         
     def getParentInfo(self, dset_type, dsetName):
         parent_n_info = 'nlumis' if dset_type=='data' else 'nevents'
-        parent_dset = das_query("parent dataset=%s instance=prod/phys03" % dsetName)['data'][0]['parent'][0]['name']
-        parent_info = das_query("dataset dataset=%s instance=prod/phys03" % parent_dset)
+        parent_dset = das_query("parent dataset=%s instance=prod/global" % dsetName)['data'][0]['parent'][0]['name']
+        parent_info = das_query("dataset dataset=%s instance=prod/global" % parent_dset)
         try:
             parent_info = parent_info['data'][-1]['dataset'][0][parent_n_info]
         except KeyError:
@@ -510,13 +510,13 @@ class SamplesManager(object):
                 self.mergeDataset(catalog[ dsetName ],{ "files" : files })
             #---Recover missing info
             if "dset_type" not in catalog[ dsetName ] or not catalog[ dsetName ]["dset_type"]:
-                dset_type = das_query("datatype dataset=%s instance=prod/phys03" % dsetName)
+                dset_type = das_query("datatype dataset=%s instance=prod/global" % dsetName)
                 catalog[ dsetName ]["dset_type"] = dset_type['data'][0]['datatype'][0]['data_type'] if 'data' in dset_type else None
             if ("parent_n_units" not in catalog[ dsetName ] or catalog[ dsetName ]["parent_n_units"]==None) and catalog[ dsetName ]["dset_type"] != None:
                 catalog[ dsetName ]["parent_n_units"] = self.getParentInfo(catalog[ dsetName ]["dset_type"], dsetName)
         else:
             #---First import
-            dset_type = das_query("datatype dataset=%s instance=prod/phys03" % dsetName)
+            dset_type = das_query("datatype dataset=%s instance=prod/global" % dsetName)
             dset_type = dset_type['data'][0]['datatype'][0]['data_type'] if 'data' in dset_type else None
             parent_info = self.getParentInfo(dset_type, dsetName) if dset_type else None
 
@@ -962,7 +962,7 @@ Commands:
                             ),
                 make_option("-d","--dbs-instance",
                             dest="dbs_instance",action="store",type="string",
-                            default="prod/phys03",
+                            default="prod/global",
                             help="DBS instance to use. default: %default",
                             ),
                 make_option("-m","--metaDataSrc",

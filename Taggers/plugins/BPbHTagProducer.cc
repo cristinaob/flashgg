@@ -72,6 +72,7 @@ namespace flashgg {
             float  diphoton_Eta_;
             float  diphoton_Phi_;
             float  diphoton_mt_;
+            float  diphoton_y_;
 
             // leptons            
             double MuonEtaCut_;
@@ -109,6 +110,7 @@ namespace flashgg {
             float BP_eta_;
             float BP_phi_;
             float BP_mt_;
+            float BP_y_;
 
             // bjet_med
             float bjet_med_mass_;
@@ -116,6 +118,7 @@ namespace flashgg {
             float bjet_med_eta_;
             float bjet_med_phi_;
             float bjet_med_mt_;
+            float bjet_med_y_;
 
             // Fwd jet
             float Fwdjet_mass_;
@@ -123,6 +126,7 @@ namespace flashgg {
             float Fwdjet_eta_;
             float Fwdjet_phi_;
             float Fwdjet_mt_;
+            float Fwdjet_y_;
 
             // dR s
             float dR_bmedjet_dipho_;
@@ -363,6 +367,7 @@ namespace flashgg {
             diphoton_Eta_  = diphotonVector.Eta();
             diphoton_Phi_  = diphotonVector.Phi();
             diphoton_mt_   = diphotonVector.Mt();
+            diphoton_y_    = diphotonVector.Rapidity();
 
             TLorentzVector Bprime = mediumBJetVectors[0] +  diphotonVector;
             BP_mass_ = Bprime.M();
@@ -370,18 +375,21 @@ namespace flashgg {
             BP_eta_  = Bprime.Eta();
             BP_phi_  = Bprime.Phi();
             BP_mt_   = Bprime.Mt();
+            BP_y_    = Bprime.Rapidity();
 
             bjet_med_mass_ = mediumBJetVectors[0].M();
             bjet_med_pt_   = mediumBJetVectors[0].Pt();
             bjet_med_eta_  = mediumBJetVectors[0].Eta();
             bjet_med_phi_  = mediumBJetVectors[0].Phi();
             bjet_med_mt_   = mediumBJetVectors[0].Mt();
+            bjet_med_y_    = mediumBJetVectors[0].Rapidity();
 
             Fwdjet_mass_   = FwdJetVectors[0].M();
             Fwdjet_pt_     = FwdJetVectors[0].Pt();
             Fwdjet_eta_    = FwdJetVectors[0].Eta();
             Fwdjet_phi_    = FwdJetVectors[0].Phi();
             Fwdjet_mt_     = FwdJetVectors[0].Mt();
+            Fwdjet_y_      = FwdJetVectors[0].Rapidity();
 
             nbjets_loose_  = nbjets_loose;
             nbjets_med_    = nbjets_medium;
@@ -428,6 +436,7 @@ namespace flashgg {
             bpbhtags_obj.setDiphoton_eta(diphoton_Eta_);
             bpbhtags_obj.setDiphoton_phi(diphoton_Phi_);
             bpbhtags_obj.setDiphoton_mt(diphoton_mt_);
+            bpbhtags_obj.setDiphoton_y(diphoton_y_);
 
             // BP candidate
             bpbhtags_obj.setBP_mass(BP_mass_);
@@ -435,6 +444,7 @@ namespace flashgg {
             bpbhtags_obj.setBP_eta(BP_eta_);
             bpbhtags_obj.setBP_phi(BP_phi_);
             bpbhtags_obj.setBP_mt(BP_mt_);
+            bpbhtags_obj.setBP_y(BP_y_);
 
             // bjet_med 
             bpbhtags_obj.setbjetmed_mass(bjet_med_mass_);
@@ -442,6 +452,7 @@ namespace flashgg {
             bpbhtags_obj.setbjetmed_eta(bjet_med_eta_);
             bpbhtags_obj.setbjetmed_phi(bjet_med_phi_);
             bpbhtags_obj.setbjetmed_mt(bjet_med_mt_);
+            bpbhtags_obj.setbjetmed_y(bjet_med_y_);
 
             // Fwd jet
             bpbhtags_obj.setFwdjet_mass(Fwdjet_mass_);
@@ -449,6 +460,7 @@ namespace flashgg {
             bpbhtags_obj.setFwdjet_eta(Fwdjet_eta_);
             bpbhtags_obj.setFwdjet_phi(Fwdjet_phi_);
             bpbhtags_obj.setFwdjet_mt(Fwdjet_mt_);
+            bpbhtags_obj.setFwdjet_y(Fwdjet_y_);
 
             // jets
             bpbhtags_obj.setnBjets_loose(nbjets_loose_);
