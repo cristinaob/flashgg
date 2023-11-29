@@ -1,0 +1,18 @@
+ls: cannot access /tmp/x509up_u122685: No such file or directory
+/cvmfs/cms.cern.ch/slc7_amd64_gcc700/external/py2-requests/2.21.0-pafccj2/lib/python2.7/site-packages/requests/__init__.py:91: RequestsDependencyWarning: urllib3 (1.25.2) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+----- Begin Fatal Exception 29-Nov-2023 18:34:22 CET-----------------------
+An exception of category 'ConfigFileReadError' occurred while
+   [0] Processing the python configuration file named /afs/cern.ch/user/r/rdalialu/CMSSW_10_6_29/src/flashgg/Taggers/test/CondorTest/BPbHDumper_cfg.py
+Exception Message:
+ unknown python problem occurred.
+ValueError: invalid literal for int() with base 0: ''
+
+At:
+  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/VarParsing.py(518): _convert
+  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/VarParsing.py(464): setDefault
+  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/VarParsing.py(214): parseArguments
+  /afs/cern.ch/user/r/rdalialu/CMSSW_10_6_29/python/flashgg/MetaData/JobConfig.py(507): parse
+  /afs/cern.ch/user/r/rdalialu/CMSSW_10_6_29/src/flashgg/Taggers/test/CondorTest/BPbHDumper_cfg.py(35): <module>
+
+----- End Fatal Exception -------------------------------------------------
