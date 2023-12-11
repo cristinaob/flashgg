@@ -18,26 +18,11 @@ process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
 
 process.source = cms.Source("PoolSource",
-        fileNames = cms.untracked.vstring('file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_16.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_17.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_18.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_19.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_20.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_21.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_22.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_23.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_24.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_25.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_26.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_27.root'
-            ,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_28.root'
-            #,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_14.root'
-            #,'file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1600/v2/BprimeBToHB_Hgg_M-1600_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1600-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231007_090034/0000/BprimeBToHB_Hgg_M1600_microAOD_15.root'
-                                )
+                            fileNames = cms.untracked.vstring('file:/eos/cms/store/group/phys_b2g/rdalialu/Bprime_M1000/v2/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8/Bprime_M1000-v2-v0-RunIISummer20UL16MiniAODAPVv2-106X_mcRun2_asymptotic_preVFP_v11-v2/231006_101357/0000/BprimeBToHB_Hgg_M1000_microAOD_1.root')
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("/afs/cern.ch/user/r/rdalialu/Bp_M1600_MC_proc/BprimeBToHB_Hgg_M1600_microAOD_2.root"))
+                                   fileName = cms.string("BprimeBtoBH_Hgg_M1000_1_test.root"))
 
 from flashgg.MetaData.JobConfig import customize
 
@@ -97,28 +82,24 @@ bpbh_variables = [
     ,"diphoton_eta         := getDiphoton_eta()"
     ,"diphoton_phi         := getDiphoton_phi()"
     ,"diphoton_mt          := getDiphoton_mt()"
-    ,"diphoton_y           := getDiphoton_y()"
 
     ,"BPrime_mass          := getBP_mass()"
     ,"BPrime_pt            := getBP_pt()"
     ,"BPrime_eta           := getBP_eta()"
     ,"BPrime_phi           := getBP_phi()"
     ,"BPrime_mt            := getBP_mt()"
-    ,"BPrime_y             := getBP_y()"
 
     ,"bjet_med_mass        := getbjetmed_mass()"
     ,"bjet_med_pt          := getbjetmed_pt()"
     ,"bjet_med_eta         := getbjetmed_eta()"
     ,"bjet_med_phi         := getbjetmed_phi()"
     ,"bjet_med_mt          := getbjetmed_mt()"
-    ,"bjet_med_y           := getbjetmed_y()"
 
     ,"Fwdjet_mass          := getFwdjet_mass()"
     ,"Fwdjet_pt            := getFwdjet_pt()"
     ,"Fwdjet_eta           := getFwdjet_eta()"
     ,"Fwdjet_phi           := getFwdjet_phi()"
     ,"Fwdjet_mt            := getFwdjet_mt()"
-    ,"Fwdjet_y             := getFwdjet_y()"
 
     ,"nbjets_loose         := getnBjets_loose()"
     ,"nbjets_med           := getnBjets_med()"
@@ -136,10 +117,6 @@ bpbh_variables = [
     ,"dR_Fwdjet_dipho      := getdRFwdjet_dipho()"
     ,"dEta_Fwdjet_dipho    := getdEtaFwdjet_dipho()"
     ,"dPhi_Fwdjet_dipho    := getdPhiFwdjet_dipho()"
-
-    ,"dR_bmedjet_Bprime    := getdRbmedjet_Bprime()"
-    ,"dEta_bmedjet_Bprime  := getdEtabmedjet_Bprime()"
-    ,"dPhi_bmedjet_Bprime  := getdPhibmedjet_Bprime()"
 
     ,"Ht                   := getHt()"
 ]

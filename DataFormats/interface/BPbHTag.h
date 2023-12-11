@@ -371,6 +371,31 @@ namespace flashgg {
            }
            
            // -----------------------
+           // dR between bmedjet and Bprime
+           float getdRbmedjet_Bprime() const{
+               return dR_bmedjet_Bprime_;
+           }
+           void setdRbmedjet_Bprime(float dR_bmedjet_Bprime) {
+               dR_bmedjet_Bprime_ = dR_bmedjet_Bprime;
+           }
+           // -----------------------
+           // dEta between bmedjet and Bprime
+           float getdEtabmedjet_Bprime() const{
+               return dEta_bmedjet_Bprime_;
+           }
+           void setdEtabmedjet_Bprime(float dEta_bmedjet_Bprime) {
+               dEta_bmedjet_Bprime_ = dEta_bmedjet_Bprime;
+           }
+           // -----------------------
+           // dPhi between bmedjet and Bprime
+           float getdPhibmedjet_Bprime() const{
+               return dPhi_bmedjet_Bprime_;
+           }
+           void setdPhibmedjet_Bprime(float dPhi_bmedjet_Bprime) {
+               dPhi_bmedjet_Bprime_ = dPhi_bmedjet_Bprime;
+           }
+          
+           // -----------------------
            // Ht
            float getHt() const{
                return Ht_;
@@ -425,6 +450,10 @@ namespace flashgg {
             float dR_Fwdjet_dipho_;
             float dEta_Fwdjet_dipho_;
             float dPhi_Fwdjet_dipho_;
+
+            float dR_bmedjet_Bprime_;
+            float dEta_bmedjet_Bprime_;
+            float dPhi_bmedjet_Bprime_;
             
             float Ht_;
 

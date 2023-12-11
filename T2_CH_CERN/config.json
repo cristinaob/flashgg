@@ -1,0 +1,34 @@
+{
+    "cont": false, 
+    "verbose": false, 
+    "ncondorcpu": 1, 
+    "jobExe": "cmsRun", 
+    "resubmit_ids": "", 
+    "njobs": 100, 
+    "resubMissing": false, 
+    "selectedDatasetPatterns": null, 
+    "hadd": false, 
+    "cmdLine": "campaign=BprimeBToHB_Hgg_M metaConditions=$CMSSW_BASE/src/flashgg/MetaData/data/MetaConditions/Era2016_RR-17Jul2018_v1.json useAAA=True", 
+    "stageCmd": "guess", 
+    "outputDir": "T2_CH_CERN", 
+    "asyncLsf": true, 
+    "maxResub": 2, 
+    "ncpu": 10, 
+    "copy_proxy": false, 
+    "processes": {
+        "bpbh_M1000": [
+            "/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8"
+        ]
+    }, 
+    "useTarball": false, 
+    "stageTo": "/eos/home-r/rdalialu/CMSSW_10_6_29/src/flashgg/T2_CH_CERN", 
+    "__opts__": null, 
+    "hadd_dataset": true, 
+    "use_tarball": true, 
+    "__opts___src": "to_submit_condor.json", 
+    "queue": "espresso", 
+    "hadd_process": true, 
+    "batchSystem": "htcondor", 
+    "output": "/store/group/phys_b2g/rdalialu", 
+    "lighttarball": false
+}

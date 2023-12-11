@@ -1,0 +1,43 @@
+{
+    "jobs": [
+        [
+            "cmsRun", 
+            [
+                "/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/BPbHDumper_cfg.py", 
+                "maxEvents=-1", 
+                "campaign=BprimeBToHB_Hgg_M", 
+                "metaConditions=/eos/home-r/rdalialu/CMSSW_10_6_29/src/flashgg/MetaData/data/MetaConditions/Era2016_RR-17Jul2018_v1.json", 
+                "useAAA=True", 
+                "processIdMap=/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/config.json", 
+                "dataset=/BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8", 
+                "outputFile=/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/output_BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8.root", 
+                "nJobs=-1", 
+                "jobId=${jobIdsMap[${1}]}", 
+                "resubMap=-2,-2", 
+                "lastAttempt=1"
+            ], 
+            [], 
+            2, 
+            -1, 
+            [
+                "/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/runJobs0", 
+                null
+            ]
+        ]
+    ], 
+    "datasets_output": {
+        "BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8": [
+            "/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/output_BprimeBToHB_Hgg_M-1000_TuneCP5_13TeV-madgraph-pythia8.root", 
+            []
+        ]
+    }, 
+    "process_output": {
+        "bpbh_M1000": [
+            "/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/output_bpbh_M1000.root", 
+            []
+        ]
+    }, 
+    "outputPfx": "/afs/cern.ch/user/r/rdalialu/eos/CMSSW_10_6_29/src/flashgg/CondorTest/output", 
+    "last_job_id": 1, 
+    "output": []
+}

@@ -132,16 +132,19 @@ namespace flashgg {
             float dR_bmedjet_dipho_;
             float dR_bmedjet_Fwdjet_;
             float dR_Fwdjet_dipho_;
+            float dR_bmedjet_Bprime_;
 
             // dEta s
             float dEta_bmedjet_dipho_;
             float dEta_bmedjet_Fwdjet_;
             float dEta_Fwdjet_dipho_;
+            float dEta_bmedjet_Bprime_;
 
             // dPhi s
             float dPhi_bmedjet_dipho_;
             float dPhi_bmedjet_Fwdjet_;
             float dPhi_Fwdjet_dipho_;
+            float dPhi_bmedjet_Bprime_;
 
             float Ht_;
 
@@ -411,6 +414,11 @@ namespace flashgg {
             dPhi_Fwdjet_dipho_  = FwdJetVectors[0].DeltaPhi(diphotonVector);
             dEta_Fwdjet_dipho_  = FwdJetVectors[0].Eta() - diphoton_Eta_;
 
+            dR_bmedjet_Bprime_  = mediumBJetVectors[0].DeltaR(Bprime);
+            dPhi_bmedjet_Bprime_= mediumBJetVectors[0].DeltaPhi(Bprime);
+            dEta_bmedjet_Bprime_= mediumBJetVectors[0].Eta() - BP_eta_;
+
+
             if (debugMode) {
                 std::cout << "Bprime mass = " << Bprime.M() << std::endl; 
                 std::cout << "Bprime Pt = " << Bprime.Pt() << std::endl;
@@ -472,16 +480,19 @@ namespace flashgg {
             bpbhtags_obj.setdRbmedjet_dipho(dR_bmedjet_dipho_);
             bpbhtags_obj.setdRbmedjet_Fwdjet(dR_bmedjet_Fwdjet_);
             bpbhtags_obj.setdRFwdjet_dipho(dR_Fwdjet_dipho_);
+            bpbhtags_obj.setdRbmedjet_Bprime(dR_bmedjet_Bprime_);
 
             // dEta
             bpbhtags_obj.setdEtabmedjet_dipho(dEta_bmedjet_dipho_);
             bpbhtags_obj.setdEtabmedjet_Fwdjet(dEta_bmedjet_Fwdjet_);
             bpbhtags_obj.setdEtaFwdjet_dipho(dEta_Fwdjet_dipho_);
+            bpbhtags_obj.setdEtabmedjet_Bprime(dEta_bmedjet_Bprime_);
 
             // dPhi
             bpbhtags_obj.setdPhibmedjet_dipho(dPhi_bmedjet_dipho_);
             bpbhtags_obj.setdPhibmedjet_Fwdjet(dPhi_bmedjet_Fwdjet_);
             bpbhtags_obj.setdPhiFwdjet_dipho(dPhi_Fwdjet_dipho_);
+            bpbhtags_obj.setdPhibmedjet_Bprime(dPhi_bmedjet_Bprime_);
 
             bpbhtags_obj.setHt(Ht_);
 
