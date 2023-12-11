@@ -73,7 +73,7 @@ process.BPbHDumper.dumpTrees = True
 process.BPbHDumper.dumpHistos = False
 process.BPbHDumper.dumpWorkspace = False
 process.BPbHDumper.src = "flashggBPbH"
-process.BPbHDumper.processId = customize.processId
+process.BPbHDumper.processId = "bpbh" 
 process.BPbHDumper.nameTemplate = cms.untracked.string("$PROCESS_$SQRTS_$CLASSNAME_$SUBCAT_$LABEL")
 
 import flashgg.Taggers.dumperConfigTools as cfgTools
