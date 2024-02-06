@@ -1,0 +1,10 @@
+{ 
+    "processes" : {
+        "wh_125" : [ 
+            "/WplusH_HToGG_WToAll_M125_13TeV_powheg_pythia8" 
+            
+	]
+    },
+    "cmdLine" : "campaign=Era2016_RR-17Jul2028_v2 metaConditions=$CMSSW_BASE/src/flashgg/MetaData/data/MetaConditions/Era2016_RR-17Jul2018_v1.json useAAA=True "
+}
+

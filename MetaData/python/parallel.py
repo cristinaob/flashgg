@@ -445,6 +445,8 @@ class HTCondorJob(object):
             fout.write('RequestCpus   = {}\n'.format(self.ncondorcpu))
             fout.write('max_retries   = 2\n')
             fout.write('queue '+str(njobs)+' \n')
+            fout.write('requirements = TARGET.OpSysAndVer =?= "AlmaLinux9"' \n)
+            fout.write('MY.WantOS = "el7"' \n)
             fout.close()        
 
         import subprocess
